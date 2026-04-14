@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Sunny Concepts"
+version = "1.0.0"
+id = "artifacts/sunny-concepts"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19081
+
+[services.development]
+run = "pnpm --filter @workspace/sunny-concepts run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/sunny-concepts", "run", "build" ]
+publicDir = "artifacts/sunny-concepts/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19081"
+BASE_PATH = "/"

@@ -1,6 +1,9 @@
 import express, { type Express } from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
+import session from "express-session";
+import path from "path";
+import fs from "fs";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
@@ -25,9 +28,32 @@ app.use(
     },
   }),
 );
-app.use(cors());
+
+app.use(cors({
+  origin: true,
+  credentials: true,
+}));
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || "sunny-concepts-secret-2024",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+  },
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const UPLOADS_DIR = path.join(process.cwd(), "uploads");
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+}
+
+app.use("/api/uploads", express.static(UPLOADS_DIR));
 
 app.use("/api", router);
 

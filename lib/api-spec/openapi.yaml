@@ -3,20 +3,30 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Sunny Concepts Agency API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: portfolio
+    description: Portfolio image management
+  - name: ceo
+    description: CEO profile management
+  - name: background
+    description: Background images management
+  - name: content
+    description: Site content editing
+  - name: admin
+    description: Admin authentication
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +34,239 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /admin/login:
+    post:
+      operationId: adminLogin
+      tags: [admin]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminLoginBody"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminLoginResponse"
+        "401":
+          description: Unauthorized
+
+  /admin/logout:
+    post:
+      operationId: adminLogout
+      tags: [admin]
+      summary: Admin logout
+      responses:
+        "200":
+          description: Logged out
+
+  /admin/me:
+    get:
+      operationId: adminMe
+      tags: [admin]
+      summary: Get current admin session
+      responses:
+        "200":
+          description: Session info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSession"
+        "401":
+          description: Not authenticated
+
+  /portfolio:
+    get:
+      operationId: listPortfolioImages
+      tags: [portfolio]
+      summary: List all portfolio images
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Portfolio images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PortfolioImage"
+
+    post:
+      operationId: createPortfolioImage
+      tags: [portfolio]
+      summary: Upload a portfolio image
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/CreatePortfolioImageBody"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PortfolioImage"
+
+  /portfolio/{id}:
+    put:
+      operationId: updatePortfolioImage
+      tags: [portfolio]
+      summary: Update a portfolio image
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePortfolioImageBody"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PortfolioImage"
+
+    delete:
+      operationId: deletePortfolioImage
+      tags: [portfolio]
+      summary: Delete a portfolio image
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /ceo:
+    get:
+      operationId: getCeoProfile
+      tags: [ceo]
+      summary: Get CEO profile
+      responses:
+        "200":
+          description: CEO profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CeoProfile"
+
+    put:
+      operationId: updateCeoProfile
+      tags: [ceo]
+      summary: Update CEO profile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UpdateCeoProfileBody"
+      responses:
+        "200":
+          description: Updated CEO profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CeoProfile"
+
+  /backgrounds:
+    get:
+      operationId: listBackgrounds
+      tags: [background]
+      summary: List background images
+      responses:
+        "200":
+          description: Background images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BackgroundImage"
+
+    post:
+      operationId: uploadBackground
+      tags: [background]
+      summary: Upload a background image
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/UploadBackgroundBody"
+      responses:
+        "201":
+          description: Uploaded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BackgroundImage"
+
+  /backgrounds/{id}:
+    delete:
+      operationId: deleteBackground
+      tags: [background]
+      summary: Delete background image
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /content:
+    get:
+      operationId: getSiteContent
+      tags: [content]
+      summary: Get all editable site content
+      responses:
+        "200":
+          description: Site content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteContent"
+
+    put:
+      operationId: updateSiteContent
+      tags: [content]
+      summary: Update site content
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSiteContentBody"
+      responses:
+        "200":
+          description: Updated content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteContent"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +277,210 @@ components:
       required:
         - status
 
+    AdminLoginBody:
+      type: object
+      properties:
+        password:
+          type: string
+      required:
+        - password
+
+    AdminLoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - success
+        - message
+
+    AdminSession:
+      type: object
+      properties:
+        authenticated:
+          type: boolean
+      required:
+        - authenticated
+
+    PortfolioImage:
+      type: object
+      properties:
+        id:
+          type: integer
+        category:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        sortOrder:
+          type: integer
+        createdAt:
+          type: string
+      required:
+        - id
+        - category
+        - imageUrl
+        - createdAt
+
+    CreatePortfolioImageBody:
+      type: object
+      properties:
+        category:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        file:
+          type: string
+          format: binary
+      required:
+        - category
+        - file
+
+    UpdatePortfolioImageBody:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        sortOrder:
+          type: integer
+
+    CeoProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        bio:
+          type: string
+        vision:
+          type: string
+        imageUrl:
+          type: string
+      required:
+        - id
+        - name
+
+    UpdateCeoProfileBody:
+      type: object
+      properties:
+        name:
+          type: string
+        bio:
+          type: string
+        vision:
+          type: string
+        file:
+          type: string
+          format: binary
+
+    BackgroundImage:
+      type: object
+      properties:
+        id:
+          type: integer
+        imageUrl:
+          type: string
+        label:
+          type: string
+        isActive:
+          type: boolean
+        animationSpeed:
+          type: number
+        sortOrder:
+          type: integer
+      required:
+        - id
+        - imageUrl
+        - isActive
+
+    UploadBackgroundBody:
+      type: object
+      properties:
+        label:
+          type: string
+        file:
+          type: string
+          format: binary
+        animationSpeed:
+          type: number
+      required:
+        - file
+
+    SiteContent:
+      type: object
+      properties:
+        heroHeading:
+          type: string
+        heroSubtext:
+          type: string
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/ServiceItem"
+        contactEmail:
+          type: string
+        contactPhone:
+          type: string
+        contactAddress:
+          type: string
+        socialInstagram:
+          type: string
+        socialTwitter:
+          type: string
+        socialFacebook:
+          type: string
+      required:
+        - heroHeading
+        - heroSubtext
+
+    UpdateSiteContentBody:
+      type: object
+      properties:
+        heroHeading:
+          type: string
+        heroSubtext:
+          type: string
+        services:
+          type: array
+          items:
+            $ref: "#/components/schemas/ServiceItem"
+        contactEmail:
+          type: string
+        contactPhone:
+          type: string
+        contactAddress:
+          type: string
+        socialInstagram:
+          type: string
+        socialTwitter:
+          type: string
+        socialFacebook:
+          type: string
+
+    ServiceItem:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+      required:
+        - id
+        - title
+        - description
