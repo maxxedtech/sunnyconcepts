@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useListBackgrounds, getListBackgroundsQueryKey, useGetCeoProfile, getGetCeoProfileQueryKey, useGetSiteContent, getGetSiteContentQueryKey, useListPortfolioImages, getListPortfolioImagesQueryKey } from "@workspace/api-client-react";
-import { Layers, Video, TrendingUp, Package, ChevronRight, X, Menu } from "lucide-react";
+import { Layers, Video, TrendingUp, Package, ChevronRight, X, Menu, Send, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -96,6 +96,22 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Floating "Made by" button */}
+      <motion.a
+        href="https://maxxedtechltd.vercel.app"
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 2, duration: 0.6 }}
+        whileHover={{ scale: 1.05, y: -2 }}
+        whileTap={{ scale: 0.97 }}
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-black/70 backdrop-blur-sm text-xs text-muted-foreground hover:text-white hover:border-white/30 transition-colors shadow-lg shadow-black/40"
+      >
+        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+        Made by Maxxed Tech Ltd
+      </motion.a>
     </div>
   );
 }
@@ -452,40 +468,181 @@ function PortfolioSection({ onImageClick }: { onImageClick: (url: string) => voi
 
 function ContactSection() {
   const { data: content } = useGetSiteContent({ query: { queryKey: getGetSiteContentQueryKey() } });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { name, email, phone, message } = form;
+
+    const emailAddress = content?.contactEmail || "hello@sunnyconcepts.com";
+    const subject = encodeURIComponent(`New Message from ${name}`);
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`
+    );
+    window.open(`mailto:${emailAddress}?subject=${subject}&body=${body}`, "_blank");
+
+    const whatsappPhone = (content?.contactPhone || "").replace(/\D/g, "");
+    const waText = encodeURIComponent(
+      `Hello Sunny Concepts!\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`
+    );
+    if (whatsappPhone) {
+      setTimeout(() => window.open(`https://wa.me/${whatsappPhone}?text=${waText}`, "_blank"), 500);
+    } else {
+      setTimeout(() => window.open(`https://wa.me/?text=${waText}`, "_blank"), 500);
+    }
+
+    setSent(true);
+    setTimeout(() => {
+      setSent(false);
+      setForm({ name: "", email: "", phone: "", message: "" });
+    }, 4000);
+  };
 
   return (
     <footer id="contact" className="bg-card pt-24 pb-12 border-t border-white/5">
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-2 gap-16 mb-24">
           <div>
-            <h2 className="font-serif text-5xl md:text-7xl text-white mb-8">Ready to create?</h2>
-            <p className="text-xl text-muted-foreground max-w-md font-light">
-              Let's build something extraordinary together. Reach out to discuss your next project.
-            </p>
-          </div>
-          
-          <div className="space-y-12">
-            <div>
-              <p className="text-primary uppercase tracking-widest text-xs mb-4">Contact</p>
-              <div className="space-y-2 text-xl font-serif text-white">
-                {content?.contactEmail && <p><a href={`mailto:${content.contactEmail}`} className="hover:text-primary transition-colors">{content.contactEmail}</a></p>}
-                {content?.contactPhone && <p><a href={`tel:${content.contactPhone}`} className="hover:text-primary transition-colors">{content.contactPhone}</a></p>}
-                {content?.contactAddress && <p className="text-muted-foreground text-lg">{content.contactAddress}</p>}
-                {!content?.contactEmail && !content?.contactPhone && <p>hello@sunnyconcepts.agency</p>}
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="font-serif text-5xl md:text-7xl text-white mb-8"
+            >
+              Ready to create?
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.7 }}
+              className="text-xl text-muted-foreground max-w-md font-light mb-12"
+            >
+              Let's build something extraordinary together. Send us a message and we'll reach back via email and WhatsApp.
+            </motion.p>
+
+            <div className="space-y-8">
+              <div>
+                <p className="text-primary uppercase tracking-widest text-xs mb-4">Contact</p>
+                <div className="space-y-2 text-xl font-serif text-white">
+                  {content?.contactEmail && <p><a href={`mailto:${content.contactEmail}`} className="hover:text-primary transition-colors">{content.contactEmail}</a></p>}
+                  {content?.contactPhone && <p><a href={`tel:${content.contactPhone}`} className="hover:text-primary transition-colors">{content.contactPhone}</a></p>}
+                  {content?.contactAddress && <p className="text-muted-foreground text-lg">{content.contactAddress}</p>}
+                  {!content?.contactEmail && !content?.contactPhone && <p>hello@sunnyconcepts.agency</p>}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-primary uppercase tracking-widest text-xs mb-4">Socials</p>
+                <div className="flex space-x-6 text-lg">
+                  <a href={content?.socialInstagram || "#"} className="text-white hover:text-primary transition-colors">Instagram</a>
+                  <a href={content?.socialTwitter || "#"} className="text-white hover:text-primary transition-colors">Twitter</a>
+                  <a href={content?.socialFacebook || "#"} className="text-white hover:text-primary transition-colors">Facebook</a>
+                </div>
               </div>
             </div>
-            
-            <div>
-              <p className="text-primary uppercase tracking-widest text-xs mb-4">Socials</p>
-              <div className="flex space-x-6 text-lg">
-                <a href={content?.socialInstagram || "#"} className="text-white hover:text-primary transition-colors">Instagram</a>
-                <a href={content?.socialTwitter || "#"} className="text-white hover:text-primary transition-colors">Twitter</a>
-                <a href={content?.socialFacebook || "#"} className="text-white hover:text-primary transition-colors">Facebook</a>
-              </div>
-            </div>
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+          >
+            <p className="text-primary uppercase tracking-widest text-xs mb-6">Send a Message</p>
+
+            {sent ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center justify-center py-16 border border-primary/30 rounded-sm text-center"
+              >
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <Send className="w-5 h-5 text-primary" />
+                </div>
+                <p className="font-serif text-xl text-white mb-2">Message sent!</p>
+                <p className="text-muted-foreground text-sm">Your email and WhatsApp are opening now.</p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs text-muted-foreground uppercase tracking-widest mb-2">Name *</label>
+                    <input
+                      required
+                      type="text"
+                      value={form.name}
+                      onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                      placeholder="Your name"
+                      className="w-full bg-transparent border border-white/10 rounded-sm px-4 py-3 text-white placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/60 transition-colors text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-muted-foreground uppercase tracking-widest mb-2">Email *</label>
+                    <input
+                      required
+                      type="email"
+                      value={form.email}
+                      onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                      placeholder="your@email.com"
+                      className="w-full bg-transparent border border-white/10 rounded-sm px-4 py-3 text-white placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/60 transition-colors text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs text-muted-foreground uppercase tracking-widest mb-2">Phone / WhatsApp</label>
+                  <input
+                    type="tel"
+                    value={form.phone}
+                    onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                    placeholder="+1 234 567 8900"
+                    className="w-full bg-transparent border border-white/10 rounded-sm px-4 py-3 text-white placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/60 transition-colors text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-muted-foreground uppercase tracking-widest mb-2">Message *</label>
+                  <textarea
+                    required
+                    rows={5}
+                    value={form.message}
+                    onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                    placeholder="Tell us about your project..."
+                    className="w-full bg-transparent border border-white/10 rounded-sm px-4 py-3 text-white placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/60 transition-colors text-sm resize-none"
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <motion.button
+                    type="submit"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 text-sm uppercase tracking-widest font-medium hover:bg-primary/90 transition-colors rounded-sm"
+                  >
+                    <Send className="w-4 h-4" />
+                    Send via Email
+                  </motion.button>
+                  <motion.button
+                    type="submit"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="flex items-center gap-2 border border-[#25D366]/40 text-[#25D366] px-6 py-3 text-sm uppercase tracking-widest font-medium hover:bg-[#25D366]/10 transition-colors rounded-sm"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    WhatsApp
+                  </motion.button>
+                </div>
+                <p className="text-muted-foreground/50 text-xs pt-1">
+                  Submitting opens your email app and WhatsApp with the message pre-filled.
+                </p>
+              </form>
+            )}
+          </motion.div>
         </div>
-        
+
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} Sunny Concepts. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
