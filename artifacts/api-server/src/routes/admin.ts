@@ -1,5 +1,4 @@
 import { Router, type Request, type Response } from "express";
-import { AdminLoginBody } from "@workspace/api-zod";
 
 const router = Router();
 
@@ -7,13 +6,13 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "sunnyadmin2024";
 
 // ✅ Login
 router.post("/admin/login", async (req: Request, res: Response) => {
-  const parsed = AdminLoginBody.safeParse(req.body);
+  const { password } = req.body || {};
 
-  if (!parsed.success) {
+  if (!password) {
     return res.status(400).json({ success: false, message: "Invalid request" });
   }
 
-  if (parsed.data.password !== ADMIN_PASSWORD) {
+  if (password !== ADMIN_PASSWORD) {
     return res.status(401).json({ success: false, message: "Invalid password" });
   }
 
