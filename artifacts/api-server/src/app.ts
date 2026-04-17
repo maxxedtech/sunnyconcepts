@@ -4,12 +4,12 @@ const pinoHttp = require("pino-http").default || require("pino-http");
 import session from "express-session";
 import path from "path";
 import fs from "fs";
-import router from "./routes";
+import router from "./routes/index.js"; // ✅ FIXED HERE
 import { logger } from "./lib/logger";
 
 const app: Express = express();
 
-// ✅ Logger middleware (fixed for Vercel + TS)
+// ✅ Logger middleware
 app.use(
   pinoHttp({
     logger,
@@ -56,11 +56,13 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Uploads directory setup
+// ✅ Uploads directory (safe for Vercel)
 const UPLOADS_DIR = path.join(process.cwd(), "uploads");
 
-if (!fs.existsSync(UPLOADS_DIR)) {
-  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+if (process.env.NODE_ENV !== "production") {
+  if (!fs.existsSync(UPLOADS_DIR)) {
+    fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+  }
 }
 
 // ✅ Static file serving
