@@ -5,12 +5,6 @@ import fs from "fs";
 import { db } from "@workspace/db";
 import { portfolioImagesTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
-import {
-  ListPortfolioImagesQueryParams,
-  UpdatePortfolioImageBody,
-  UpdatePortfolioImageParams,
-  DeletePortfolioImageParams,
-} from "@workspace/api-zod";
 
 const router = Router();
 
@@ -29,11 +23,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage, limits: { fileSize: 20 * 1024 * 1024 } });
 
-// ✅ GET portfolio
+// ✅ GET
 router.get("/portfolio", async (req: Request, res: Response) => {
   try {
-    const parsed = ListPortfolioImagesQueryParams.safeParse(req.query);
-    const category = parsed.success ? parsed.data.category : undefined;
+    const category = req.query?.category as string | undefined;
 
     const images = await db
       .select()
@@ -47,12 +40,12 @@ router.get("/portfolio", async (req: Request, res: Response) => {
         createdAt: img.createdAt.toISOString(),
       }))
     );
-  } catch (error) {
+  } catch {
     return res.status(500).json({ error: "Failed to fetch portfolio" });
   }
 });
 
-// ✅ CREATE portfolio item
+// ✅ POST
 router.post(
   "/portfolio",
   upload.single("file"),
@@ -84,29 +77,25 @@ router.post(
       return res
         .status(201)
         .json({ ...image, createdAt: image.createdAt.toISOString() });
-    } catch (error) {
+    } catch {
       return res.status(500).json({ error: "Failed to upload image" });
     }
   }
 );
 
-// ✅ UPDATE portfolio item
+// ✅ PUT
 router.put("/portfolio/:id", async (req: Request, res: Response) => {
   try {
-    const paramsParsed = UpdatePortfolioImageParams.safeParse(req.params);
-    if (!paramsParsed.success) {
-      return res.status(400).json({ error: "Invalid ID" });
-    }
+    const id = Number(req.params.id);
 
-    const bodyParsed = UpdatePortfolioImageBody.safeParse(req.body);
-    if (!bodyParsed.success) {
-      return res.status(400).json({ error: "Invalid body" });
+    if (!id) {
+      return res.status(400).json({ error: "Invalid ID" });
     }
 
     const [updated] = await db
       .update(portfolioImagesTable)
-      .set(bodyParsed.data)
-      .where(eq(portfolioImagesTable.id, paramsParsed.data.id))
+      .set(req.body)
+      .where(eq(portfolioImagesTable.id, id))
       .returning();
 
     if (!updated) {
@@ -117,34 +106,36 @@ router.put("/portfolio/:id", async (req: Request, res: Response) => {
       ...updated,
       createdAt: updated.createdAt.toISOString(),
     });
-  } catch (error) {
+  } catch {
     return res.status(500).json({ error: "Failed to update image" });
   }
 });
 
-// ✅ DELETE portfolio item
+// ✅ DELETE
 router.delete("/portfolio/:id", async (req: Request, res: Response) => {
   try {
-    const parsed = DeletePortfolioImageParams.safeParse(req.params);
-    if (!parsed.success) {
+    const id = Number(req.params.id);
+
+    if (!id) {
       return res.status(400).json({ error: "Invalid ID" });
     }
 
     const [deleted] = await db
       .delete(portfolioImagesTable)
-      .where(eq(portfolioImagesTable.id, parsed.data.id))
+      .where(eq(portfolioImagesTable.id, id))
       .returning();
 
     if (deleted?.imageUrl) {
       const filename = path.basename(deleted.imageUrl);
       const filepath = path.join(UPLOADS_DIR, filename);
+
       if (fs.existsSync(filepath)) {
         fs.unlinkSync(filepath);
       }
     }
 
     return res.status(204).send();
-  } catch (error) {
+  } catch {
     return res.status(500).json({ error: "Failed to delete image" });
   }
 });
