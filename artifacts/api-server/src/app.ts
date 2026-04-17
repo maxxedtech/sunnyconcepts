@@ -1,36 +1,24 @@
 import express, { type Express } from "express";
 import cors from "cors";
-const pinoHttp = require("pino-http").default || require("pino-http");
 import session from "express-session";
 import path from "path";
 import fs from "fs";
-import router from "./routes/index.js"; // ✅ FIXED HERE
+import router from "./routes";
 import { logger } from "./lib/logger";
+
+// ⚠️ pino fix (safe)
+const pinoHttp = require("pino-http");
 
 const app: Express = express();
 
-// ✅ Logger middleware
+// Logger
 app.use(
   pinoHttp({
     logger,
-    serializers: {
-      req(req: any) {
-        return {
-          id: req.id,
-          method: req.method,
-          url: req.url?.split("?")[0],
-        };
-      },
-      res(res: any) {
-        return {
-          statusCode: res.statusCode,
-        };
-      },
-    },
   }),
 );
 
-// ✅ CORS
+// CORS
 app.use(
   cors({
     origin: true,
@@ -38,38 +26,31 @@ app.use(
   }),
 );
 
-// ✅ Session config
+// Session
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "sunny-concepts-secret-2024",
+    secret: process.env.SESSION_SECRET || "dev-secret",
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      secure: false,
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    },
   }),
 );
 
-// ✅ Body parsers
+// Body parsing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Uploads directory (safe for Vercel)
-const UPLOADS_DIR = path.join(process.cwd(), "uploads");
-
+// ⚠️ Disable file system in production (Vercel)
 if (process.env.NODE_ENV !== "production") {
+  const UPLOADS_DIR = path.join(process.cwd(), "uploads");
+
   if (!fs.existsSync(UPLOADS_DIR)) {
     fs.mkdirSync(UPLOADS_DIR, { recursive: true });
   }
+
+  app.use("/api/uploads", express.static(UPLOADS_DIR));
 }
 
-// ✅ Static file serving
-app.use("/api/uploads", express.static(UPLOADS_DIR));
-
-// ✅ Routes
+// Routes
 app.use("/api", router);
 
-// ✅ Export app
 export default app;
