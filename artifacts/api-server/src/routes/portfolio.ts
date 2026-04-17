@@ -1,11 +1,16 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { db } from "@workspace/db";
 import { portfolioImagesTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
-import { ListPortfolioImagesQueryParams, UpdatePortfolioImageBody, UpdatePortfolioImageParams, DeletePortfolioImageParams } from "@workspace/api-zod";
+import {
+  ListPortfolioImagesQueryParams,
+  UpdatePortfolioImageBody,
+  UpdatePortfolioImageParams,
+  DeletePortfolioImageParams,
+} from "@workspace/api-zod";
 
 const router = Router();
 
@@ -24,76 +29,124 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage, limits: { fileSize: 20 * 1024 * 1024 } });
 
-router.get("/portfolio", async (req, res) => {
-  const parsed = ListPortfolioImagesQueryParams.safeParse(req.query);
-  const category = parsed.success ? parsed.data.category : undefined;
-  
-  const images = await db
-    .select()
-    .from(portfolioImagesTable)
-    .where(category ? eq(portfolioImagesTable.category, category) : undefined)
-    .orderBy(portfolioImagesTable.sortOrder, portfolioImagesTable.createdAt);
+// ✅ GET portfolio
+router.get("/portfolio", async (req: Request, res: Response) => {
+  try {
+    const parsed = ListPortfolioImagesQueryParams.safeParse(req.query);
+    const category = parsed.success ? parsed.data.category : undefined;
 
-  res.json(images.map(img => ({
-    ...img,
-    createdAt: img.createdAt.toISOString(),
-  })));
+    const images = await db
+      .select()
+      .from(portfolioImagesTable)
+      .where(category ? eq(portfolioImagesTable.category, category) : undefined)
+      .orderBy(portfolioImagesTable.sortOrder, portfolioImagesTable.createdAt);
+
+    return res.json(
+      images.map((img) => ({
+        ...img,
+        createdAt: img.createdAt.toISOString(),
+      }))
+    );
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to fetch portfolio" });
+  }
 });
 
-router.post("/portfolio", upload.single("file"), async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: "No file uploaded" });
-  }
-  const { category, title, description } = req.body;
-  if (!category) {
-    return res.status(400).json({ error: "Category is required" });
-  }
+// ✅ CREATE portfolio item
+router.post(
+  "/portfolio",
+  upload.single("file"),
+  async (req: Request, res: Response) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
 
-  const imageUrl = `/api/uploads/${req.file.filename}`;
-  const [image] = await db.insert(portfolioImagesTable).values({
-    category,
-    title: title || null,
-    description: description || null,
-    imageUrl,
-    sortOrder: 0,
-  }).returning();
+      const { category, title, description } = req.body;
 
-  res.status(201).json({ ...image, createdAt: image.createdAt.toISOString() });
+      if (!category) {
+        return res.status(400).json({ error: "Category is required" });
+      }
+
+      const imageUrl = `/api/uploads/${req.file.filename}`;
+
+      const [image] = await db
+        .insert(portfolioImagesTable)
+        .values({
+          category,
+          title: title || null,
+          description: description || null,
+          imageUrl,
+          sortOrder: 0,
+        })
+        .returning();
+
+      return res
+        .status(201)
+        .json({ ...image, createdAt: image.createdAt.toISOString() });
+    } catch (error) {
+      return res.status(500).json({ error: "Failed to upload image" });
+    }
+  }
+);
+
+// ✅ UPDATE portfolio item
+router.put("/portfolio/:id", async (req: Request, res: Response) => {
+  try {
+    const paramsParsed = UpdatePortfolioImageParams.safeParse(req.params);
+    if (!paramsParsed.success) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    const bodyParsed = UpdatePortfolioImageBody.safeParse(req.body);
+    if (!bodyParsed.success) {
+      return res.status(400).json({ error: "Invalid body" });
+    }
+
+    const [updated] = await db
+      .update(portfolioImagesTable)
+      .set(bodyParsed.data)
+      .where(eq(portfolioImagesTable.id, paramsParsed.data.id))
+      .returning();
+
+    if (!updated) {
+      return res.status(404).json({ error: "Not found" });
+    }
+
+    return res.json({
+      ...updated,
+      createdAt: updated.createdAt.toISOString(),
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to update image" });
+  }
 });
 
-router.put("/portfolio/:id", async (req, res) => {
-  const paramsParsed = UpdatePortfolioImageParams.safeParse(req.params);
-  if (!paramsParsed.success) return res.status(400).json({ error: "Invalid ID" });
+// ✅ DELETE portfolio item
+router.delete("/portfolio/:id", async (req: Request, res: Response) => {
+  try {
+    const parsed = DeletePortfolioImageParams.safeParse(req.params);
+    if (!parsed.success) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
 
-  const bodyParsed = UpdatePortfolioImageBody.safeParse(req.body);
-  if (!bodyParsed.success) return res.status(400).json({ error: "Invalid body" });
+    const [deleted] = await db
+      .delete(portfolioImagesTable)
+      .where(eq(portfolioImagesTable.id, parsed.data.id))
+      .returning();
 
-  const [updated] = await db
-    .update(portfolioImagesTable)
-    .set(bodyParsed.data)
-    .where(eq(portfolioImagesTable.id, paramsParsed.data.id))
-    .returning();
+    if (deleted?.imageUrl) {
+      const filename = path.basename(deleted.imageUrl);
+      const filepath = path.join(UPLOADS_DIR, filename);
+      if (fs.existsSync(filepath)) {
+        fs.unlinkSync(filepath);
+      }
+    }
 
-  if (!updated) return res.status(404).json({ error: "Not found" });
-  res.json({ ...updated, createdAt: updated.createdAt.toISOString() });
-});
-
-router.delete("/portfolio/:id", async (req, res) => {
-  const parsed = DeletePortfolioImageParams.safeParse(req.params);
-  if (!parsed.success) return res.status(400).json({ error: "Invalid ID" });
-
-  const [deleted] = await db
-    .delete(portfolioImagesTable)
-    .where(eq(portfolioImagesTable.id, parsed.data.id))
-    .returning();
-
-  if (deleted?.imageUrl) {
-    const filename = path.basename(deleted.imageUrl);
-    const filepath = path.join(UPLOADS_DIR, filename);
-    if (fs.existsSync(filepath)) fs.unlinkSync(filepath);
+    return res.status(204).send();
+  } catch (error) {
+    return res.status(500).json({ error: "Failed to delete image" });
   }
-
-  res.status(204).send();
 });
 
 export default router;
