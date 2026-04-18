@@ -6,7 +6,7 @@ import fs from "fs";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
-// ⚠️ pino fix (safe)
+// Safe require for pino
 const pinoHttp = require("pino-http");
 
 const app: Express = express();
@@ -39,7 +39,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ⚠️ Disable file system in production (Vercel)
+// ⚠️ Disable file system in production (Vercel serverless)
 if (process.env.NODE_ENV !== "production") {
   const UPLOADS_DIR = path.join(process.cwd(), "uploads");
 
