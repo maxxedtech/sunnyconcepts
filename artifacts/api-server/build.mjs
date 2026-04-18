@@ -8,20 +8,21 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 async function buildAll() {
   const distDir = path.resolve(__dirname, "dist");
 
-  // Clean dist
+  // Clean previous build
   await rm(distDir, { recursive: true, force: true });
 
   await build({
     entryPoints: [path.resolve(__dirname, "src/index.ts")],
     outdir: distDir,
+
     platform: "node",
     format: "esm",
+    target: "node18",
 
-    // ✅ CRITICAL FIX
+    // 🔥 CRITICAL: DO NOT BUNDLE
     bundle: false,
     packages: "external",
 
-    target: "node18",
     sourcemap: true,
     logLevel: "info",
   });
