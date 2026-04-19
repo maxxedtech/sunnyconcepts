@@ -1,12 +1,28 @@
 import { Router, type Request, type Response } from "express";
 import multer from "multer";
-import cloudinary from "../lib/cloudinary";
-import { supabase } from "../lib/supabase";
+import cloudinary from "../lib/cloudinary.js";
+import { supabase } from "../lib/supabase.js";
 
 const router = Router();
+
+// Use memory storage (required for Vercel)
 const upload = multer({ storage: multer.memoryStorage() });
 
-// GET all portfolio items
+// Helper: upload buffer to Cloudinary
+const streamUpload = (buffer: Buffer) => {
+  return new Promise<any>((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "portfolio" },
+      (error, result) => {
+        if (result) resolve(result);
+        else reject(error);
+      }
+    );
+    stream.end(buffer);
+  });
+};
+
+// GET portfolio
 router.get("/portfolio", async (_req: Request, res: Response) => {
   const { data, error } = await supabase
     .from("portfolio")
@@ -18,11 +34,11 @@ router.get("/portfolio", async (_req: Request, res: Response) => {
   return res.json(data);
 });
 
-// POST new portfolio item
+// POST portfolio
 router.post(
   "/portfolio",
   upload.single("file"),
-  async (req: Request, res: Response) => {
+  async (req: Request & { file?: Express.Multer.File }, res: Response) => {
     try {
       const { title, description } = req.body;
 
@@ -31,32 +47,23 @@ router.post(
       }
 
       // Upload to Cloudinary
-      const uploadResult = await cloudinary.uploader.upload_stream(
-        { folder: "portfolio" },
-        async (error, result) => {
-          if (error || !result) {
-            return res.status(500).json({ error: "Upload failed" });
-          }
+      const result = await streamUpload(req.file.buffer);
 
-          // Save to Supabase
-          const { data, error: dbError } = await supabase
-            .from("portfolio")
-            .insert([
-              {
-                title,
-                description,
-                image_url: result.secure_url,
-              },
-            ])
-            .select();
+      // Save to Supabase
+      const { data, error } = await supabase
+        .from("portfolio")
+        .insert([
+          {
+            title,
+            description,
+            image_url: result.secure_url,
+          },
+        ])
+        .select();
 
-          if (dbError) return res.status(500).json({ error: dbError });
+      if (error) return res.status(500).json({ error });
 
-          return res.status(201).json(data);
-        }
-      );
-
-      uploadResult.end(req.file.buffer);
+      return res.status(201).json(data);
     } catch (err) {
       return res.status(500).json({ error: "Server error" });
     }
