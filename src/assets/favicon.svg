@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Sunny Concepts SC monogram favicon">
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.615 0 0 0 0 0.706 0 0 0 0 0.671 0 0 0 0.35 0" result="sageGlow"/>
+      <feMerge>
+        <feMergeNode in="sageGlow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="#000"/>
+  <g filter="url(#glow)">
+    <path d="M176 78H95c-14 0-25 11-25 25s11 25 25 25h46c5 0 9 4 9 9s-4 9-9 9H80v32h61c23 0 41-18 41-41s-18-41-41-41H95c-5 0-9-4-9-9s4-9 9-9h81V78Z" fill="#E9ECEB"/>
+    <path d="M176 110c-20 0-36 16-36 36s16 36 36 36V150c-2 0-4-2-4-4s2-4 4-4v-32Z" fill="#E9ECEB"/>
+  </g>
+</svg>
