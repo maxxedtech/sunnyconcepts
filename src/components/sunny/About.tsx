@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Placeholder } from "./Placeholder";
+import ceoImage from "@/assets/photos/branding/ceo.jpeg";
 
 export function About() {
   return (
@@ -11,7 +11,14 @@ export function About() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         >
-          <Placeholder label="Add CEO Image" ratio="aspect-[4/5]" />
+          <div className="placeholder-frame relative aspect-[4/5] overflow-hidden rounded-2xl">
+            <img
+              src={ceoImage}
+              alt="Sunday Ibrahim, Founder and Creative Director of Sunny Concepts"
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+          </div>
         </motion.div>
 
         <motion.div

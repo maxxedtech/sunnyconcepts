@@ -1,17 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Sunny Concepts SC monogram favicon">
-  <defs>
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.615 0 0 0 0 0.706 0 0 0 0 0.671 0 0 0 0.35 0" result="sageGlow"/>
-      <feMerge>
-        <feMergeNode in="sageGlow"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  <rect width="256" height="256" rx="56" fill="#000"/>
-  <g filter="url(#glow)">
-    <path d="M176 78H95c-14 0-25 11-25 25s11 25 25 25h46c5 0 9 4 9 9s-4 9-9 9H80v32h61c23 0 41-18 41-41s-18-41-41-41H95c-5 0-9-4-9-9s4-9 9-9h81V78Z" fill="#E9ECEB"/>
-    <path d="M176 110c-20 0-36 16-36 36s16 36 36 36V150c-2 0-4-2-4-4s2-4 4-4v-32Z" fill="#E9ECEB"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Sunny Concepts monogram favicon">
+  <rect width="512" height="512" fill="#000"/>
+  <g fill="#fff">
+    <path d="M254 112 325 153 150 255 150 169Z"/>
+    <path d="M337 160 391 191 391 274 356 274 356 225 292 188Z"/>
+    <path d="M258 185 326 225 326 310 255 352 208 325 279 283 279 244 151 318 151 286Z"/>
+    <path d="M150 329 326 227 326 310 179 395 150 378Z"/>
+    <path d="M151 382 208 415 254 388 326 430 254 472 151 413Z"/>
+    <path d="M356 304 391 304 391 386 326 424 291 404 356 366Z"/>
   </g>
 </svg>
