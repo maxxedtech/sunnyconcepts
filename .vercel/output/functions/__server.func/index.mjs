@@ -22,9 +22,9 @@ const findRouteRules = /* @__PURE__ */ (() => {
     return r;
   };
 })();
-const _lazy_32eXLh = defineLazyEventHandler(() => import("./_chunks/ssr-renderer.mjs"));
+const _lazy_kYGFVD = defineLazyEventHandler(() => import("./_chunks/ssr-renderer.mjs"));
 const findRoute = /* @__PURE__ */ (() => {
-  const data = { route: "/**", handler: _lazy_32eXLh };
+  const data = { route: "/**", handler: _lazy_kYGFVD };
   return ((_m, p) => {
     return { data, params: { "_": p.slice(1) } };
   });

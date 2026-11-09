@@ -1,50 +1,97 @@
 import { motion } from "framer-motion";
-
-const socials = [
-  { label: "Instagram", href: "https://www.instagram.com/sunny__concepts" },
-  { label: "Facebook", href: "https://www.facebook.com/profile.php?id=100093187495032" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/sunday-ibrahim-116452330" },
-  { label: "TikTok", href: "https://tiktok.com/@sunny_concepts" },
-  { label: "X", href: "https://x.com/sunnyconcepts01" },
-];
+import { useSiteSettings } from "@/lib/siteSettings";
 
 export function Contact() {
+  const { settings } = useSiteSettings();
+
+  const phoneLink = `tel:${(settings.contact_phone || "+2348024493791").replace(/\s+/g, "")}`;
+  const mailLink = `mailto:${settings.contact_email || "sunnyconceptsinfo@gmail.com"}`;
+  const whatsappUrl = `https://wa.me/${(settings.contact_phone || "2348024493791").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
+    settings.contact_whatsapp_text || "Hi Sunny Concepts, I'd love to discuss a project."
+  )}`;
+
+  const socials = [
+    { label: "Instagram", href: settings.social_instagram },
+    { label: "LinkedIn", href: settings.social_linkedin },
+    { label: "X (Twitter)", href: settings.social_x },
+    { label: "Facebook", href: settings.social_facebook },
+    { label: "TikTok", href: settings.social_tiktok },
+  ].filter((s) => Boolean(s.href));
+
   return (
-    <section id="contact" className="relative py-32 md:py-48 px-6">
+    <section id="contact" className="relative py-28 md:py-44 px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="glass rounded-[2.5rem] p-12 md:p-20 text-center relative overflow-hidden"
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="glass rounded-[2.5rem] p-10 md:p-20 text-center relative overflow-hidden gpu-accelerated"
+          style={{
+            background: "rgba(17, 17, 21, 0.92)",
+            borderColor: "rgba(255, 255, 255, 0.14)",
+          }}
         >
-          <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-96 w-96 rounded-full blur-3xl opacity-30" style={{ background: "radial-gradient(circle, var(--sage), transparent 60%)" }} />
-          <div className="relative">
-            <span className="text-[10px] tracking-[0.5em] uppercase text-[var(--sage)]">— Let's create</span>
-            <h2 className="mt-6 text-5xl md:text-7xl font-light leading-[1.05] text-balance">
-              Begin your <em className="italic text-[var(--sage)]">next chapter</em>.
+          <div
+            className="absolute -top-36 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full blur-3xl opacity-25 pointer-events-none"
+            style={{
+              background: "radial-gradient(circle, rgba(183, 215, 193, 0.4) 0%, transparent 65%)",
+            }}
+          />
+
+          <div className="relative z-10">
+            <span className="text-[10px] tracking-[0.45em] uppercase text-[var(--sage)] font-semibold">
+              {settings.contact_tag || "— Let's create"}
+            </span>
+
+            <h2 className="mt-6 text-5xl md:text-7xl font-light leading-[1.05] text-balance text-[#F4F4F5]">
+              {settings.contact_headline || "Begin your"}{" "}
+              <em className="italic text-[var(--sage)] font-light">
+                {settings.contact_headline_italic || "next chapter."}
+              </em>
             </h2>
-            <p className="mt-8 text-muted-foreground max-w-lg mx-auto">
-              Tell us about your vision. We respond within 24 hours with a tailored creative direction.
+
+            <p className="mt-8 text-base text-[#A1A1AA] max-w-lg mx-auto leading-relaxed">
+              {settings.contact_subtext}
             </p>
-            <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+
+            {/* Interactive Action Buttons */}
+            <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
               <a
-                href="https://wa.me/2348024493791?text=Hi%20Sunny%20Concepts%2C%20I%27d%20love%20to%20discuss%20a%20project."
+                href={whatsappUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full px-10 py-4 text-xs tracking-[0.3em] uppercase text-[var(--primary-foreground)] hover:scale-[1.03] transition-all"
-                style={{ background: "var(--sage)", boxShadow: "var(--glow-sage)" }}
+                className="rounded-full px-9 py-4 text-xs tracking-[0.28em] uppercase text-[#070709] font-medium transition-all hover:brightness-110 hover:shadow-[0_0_25px_rgba(183,215,193,0.45)] active:scale-[0.98]"
+                style={{ background: "var(--sage)" }}
               >
                 Message on WhatsApp
               </a>
-              <a href="mailto:sunnyconceptsinfo@gmail.com" className="glass rounded-full px-10 py-4 text-xs tracking-[0.3em] uppercase hover:bg-black/5 transition-all">
-                sunnyconceptsinfo@gmail.com
+
+              <a
+                href={mailLink}
+                className="glass glass-interactive rounded-full px-9 py-4 text-xs tracking-[0.28em] uppercase text-[#F4F4F5] hover:border-white/30 transition-all active:scale-[0.98]"
+              >
+                {settings.contact_email || "sunnyconceptsinfo@gmail.com"}
+              </a>
+
+              <a
+                href={phoneLink}
+                className="glass glass-interactive rounded-full px-8 py-4 text-xs tracking-[0.25em] uppercase text-[#A1A1AA] hover:text-[#F4F4F5] hover:border-white/30 transition-all active:scale-[0.98]"
+              >
+                Call: {settings.contact_phone || "+234 802 449 3791"}
               </a>
             </div>
+
+            {/* Social Links */}
             <div className="mt-14 flex flex-wrap justify-center gap-x-8 gap-y-3">
               {socials.map((s) => (
-                <a key={s.label} href={s.href} target="_blank" rel="noreferrer" className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground hover:text-[var(--sage)] transition-colors">
+                <a
+                  key={`contact-social-${s.label}`}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[11px] tracking-[0.35em] uppercase text-[#A1A1AA] hover:text-[var(--sage)] transition-colors font-medium"
+                >
                   {s.label}
                 </a>
               ))}

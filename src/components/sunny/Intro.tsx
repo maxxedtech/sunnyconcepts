@@ -2,10 +2,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export function Intro() {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
+
   useEffect(() => {
-    const t = setTimeout(() => setShow(false), 4200);
-    return () => clearTimeout(t);
+    // Only show quick cinematic splash on first visit in the session
+    const viewed = sessionStorage.getItem("sunny_splash_seen");
+    if (!viewed) {
+      setShow(true);
+      sessionStorage.setItem("sunny_splash_seen", "true");
+      const t = setTimeout(() => setShow(false), 900);
+      return () => clearTimeout(t);
+    }
   }, []);
 
   return (
@@ -13,41 +20,27 @@ export function Intro() {
       {show && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 1.2, ease: [0.22, 1, 0.36, 1] } }}
-          className="fixed inset-0 z-[100] flex items-center justify-center grain"
-          style={{ background: "var(--gradient-cinematic)" }}
+          exit={{ opacity: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#070709] pointer-events-none"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 1.4 }}
-            animate={{ opacity: 0.55, scale: 1 }}
-            transition={{ duration: 2.4, ease: "easeOut" }}
-            className="absolute h-[60vh] w-[60vh] rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle, var(--sage), transparent 60%)" }}
-          />
           <div className="relative z-10 flex flex-col items-center text-center px-6">
             <motion.h1
-              initial={{ opacity: 0, y: 20, letterSpacing: "0.4em" }}
-              animate={{ opacity: 1, y: 0, letterSpacing: "0.18em" }}
-              transition={{ duration: 2, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="text-4xl md:text-6xl font-light uppercase text-foreground"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+              className="text-3xl md:text-5xl font-light uppercase tracking-[0.25em] text-[#F4F4F5]"
             >
               Sunny Concepts
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 0.7, y: 0 }}
-              transition={{ duration: 1.6, delay: 2 }}
-              className="mt-6 text-xs md:text-sm tracking-[0.35em] uppercase text-muted-foreground"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.8 }}
+              transition={{ delay: 0.2, duration: 0.3 }}
+              className="mt-4 text-xs tracking-[0.3em] uppercase text-[#A1A1AA]"
             >
               Leading the world through digital services
             </motion.p>
           </div>
-          <button
-            onClick={() => setShow(false)}
-            className="absolute bottom-10 right-10 text-[10px] tracking-[0.3em] uppercase text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Skip
-          </button>
         </motion.div>
       )}
     </AnimatePresence>
