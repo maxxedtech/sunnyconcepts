@@ -40,7 +40,7 @@ export function Services() {
           <span className="text-[10px] tracking-[0.45em] uppercase text-[var(--sage)] font-semibold">
             {settings.services_tag || "— Services"}
           </span>
-          <h2 className="mt-6 text-4xl md:text-6xl font-light leading-[1.08] text-balance text-[#F4F4F5]">
+          <h2 className="mt-6 text-4xl md:text-6xl font-light leading-[1.08] text-balance text-[#D9D9D9]">
             {settings.services_headline || "Four disciplines,"}{" "}
             <em className="italic text-[var(--sage)] font-light">
               {settings.services_headline_italic || "one cinematic"}
@@ -59,14 +59,14 @@ export function Services() {
               transition={{ duration: 0.7, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
               className="group glass rounded-3xl p-9 md:p-11 relative overflow-hidden transition-all duration-500 hover:border-white/25 hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.85)] gpu-accelerated"
               style={{
-                background: "rgba(17, 17, 21, 0.88)",
+                background: "rgba(63, 63, 61, 0.88)",
                 borderColor: "rgba(255, 255, 255, 0.12)",
               }}
             >
               <div
                 className="absolute -top-24 -right-24 h-60 w-60 rounded-full blur-3xl opacity-0 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none"
                 style={{
-                  background: "radial-gradient(circle, rgba(183, 215, 193, 0.3) 0%, transparent 65%)",
+                  background: "radial-gradient(circle, rgba(217, 217, 217, 0.3) 0%, transparent 65%)",
                 }}
               />
               <div className="relative z-10">
@@ -74,14 +74,14 @@ export function Services() {
                   <span className="text-xs tracking-[0.3em] uppercase text-[var(--sage)] font-mono font-semibold">
                     {s.num}
                   </span>
-                  <span className="text-[11px] tracking-[0.3em] uppercase text-[#A1A1AA] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="text-[11px] tracking-[0.3em] uppercase text-[#AFAFAE] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     — Explore
                   </span>
                 </div>
-                <h3 className="text-3xl md:text-4xl font-light text-[#F4F4F5] tracking-tight">
+                <h3 className="text-3xl md:text-4xl font-light text-[#D9D9D9] tracking-tight">
                   {s.title}
                 </h3>
-                <p className="mt-5 text-[#A1A1AA] leading-relaxed max-w-md text-sm md:text-base">
+                <p className="mt-5 text-[#AFAFAE] leading-relaxed max-w-md text-sm md:text-base">
                   {s.desc}
                 </p>
               </div>

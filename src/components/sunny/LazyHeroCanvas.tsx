@@ -26,7 +26,7 @@ export function LazyHeroCanvas() {
       <div
         className="absolute inset-0 rounded-full blur-3xl opacity-20 pointer-events-none transition-opacity duration-1000"
         style={{
-          background: "radial-gradient(circle at center, rgba(183, 215, 193, 0.25) 0%, transparent 70%)",
+          background: "radial-gradient(circle at center, rgba(217, 217, 217, 0.25) 0%, transparent 70%)",
         }}
       />
     </div>

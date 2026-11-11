@@ -26,10 +26,10 @@ export function Preloader() {
   return (
     <div className={`preloader ${leaving ? "preloader--leaving" : ""}`} aria-label="Loading Sunny Concepts" role="status">
       <div className="preloader__frame">
-        <div className="preloader__mark"><span /><span /><span /></div>
-        <p className="preloader__eyebrow">Sunny Concepts</p>
+        <p className="preloader__title">SUNNY CONCEPTS</p>
+        <p className="preloader__tagline">Leading the world through digital services.</p>
         <div className="preloader__line"><span style={{ width: `${progress}%` }} /></div>
-        <div className="preloader__meta"><span>Preparing the studio</span><strong>{progress}%</strong></div>
+        <div className="preloader__meta"><span>Preparing the studio</span><strong>{String(progress).padStart(2, "0")}</strong></div>
       </div>
     </div>
   );

@@ -23,7 +23,6 @@ import {
   X,
 } from "lucide-react";
 import { toast } from "sonner";
-import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { supabase, type PortfolioItem } from "@/lib/supabase";
 import {
   useSiteSettings,
@@ -95,14 +94,14 @@ function AdminPage() {
 
   if (!authenticated) {
     return (
-      <main className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#070709] text-[#A1A1AA] relative overflow-hidden">
+      <main className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#0F0F0F] text-[#AFAFAE] relative overflow-hidden">
         {/* Obsidian ambient lighting */}
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full blur-[140px] pointer-events-none opacity-20"
           style={{ background: "radial-gradient(circle, var(--sage), transparent 70%)" }}
         />
 
-        <div className="glass-strong rounded-3xl p-8 sm:p-12 w-full max-w-md border border-white/12 relative z-10 shadow-2xl bg-[#111115]">
+        <div className="glass-strong rounded-3xl p-8 sm:p-12 w-full max-w-md border border-[#6B6A69]/20 relative z-10 shadow-2xl bg-[#3F3F3D]">
           <div className="flex items-center gap-2 mb-6">
             <span className="h-2 w-2 rounded-full bg-[var(--sage)] shadow-[0_0_10px_var(--sage)]" />
             <p className="text-[10px] tracking-[0.45em] uppercase text-[var(--sage)] font-semibold">
@@ -110,10 +109,10 @@ function AdminPage() {
             </p>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-light text-[#F4F4F5] tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-light text-[#D9D9D9] tracking-tight">
             Studio Security
           </h1>
-          <p className="mt-3 text-sm text-[#A1A1AA] leading-relaxed">
+          <p className="mt-3 text-sm text-[#AFAFAE] leading-relaxed">
             Enter the authorized master passcode to manage portfolio assets and live site content.
           </p>
 
@@ -128,12 +127,12 @@ function AdminPage() {
                   if (error) setError("");
                 }}
                 placeholder="Enter admin passcode"
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3.5 pr-12 text-sm text-[#F4F4F5] outline-none transition-all focus:border-[var(--sage)] focus:ring-1 focus:ring-[var(--sage)] placeholder:text-[#A1A1AA]/50"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3.5 pr-12 text-sm text-[#D9D9D9] outline-none transition-all focus:border-[var(--sage)] focus:ring-1 focus:ring-[var(--sage)] placeholder:text-[#AFAFAE]/50"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#A1A1AA] hover:text-[#F4F4F5] transition-colors p-1"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#AFAFAE] hover:text-[#D9D9D9] transition-colors p-1"
                 aria-label={showPassword ? "Hide passcode" : "Show passcode"}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -156,14 +155,14 @@ function AdminPage() {
 
             <button
               type="submit"
-              className="mt-2 w-full rounded-2xl bg-[var(--sage)] text-[#070709] py-3.5 text-xs tracking-[0.25em] uppercase font-semibold transition-all hover:brightness-110 active:scale-[0.99] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
+              className="mt-2 w-full rounded-2xl bg-[var(--sage)] text-[#0F0F0F] py-3.5 text-xs tracking-[0.25em] uppercase font-semibold transition-all hover:brightness-110 active:scale-[0.99] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
             >
               Enter Studio
             </button>
 
             <Link
               to="/"
-              className="mt-6 flex items-center justify-center gap-2 text-xs tracking-[0.2em] uppercase text-[#A1A1AA] hover:text-[#F4F4F5] transition-colors pt-2"
+              className="mt-6 flex items-center justify-center gap-2 text-xs tracking-[0.2em] uppercase text-[#AFAFAE] hover:text-[#D9D9D9] transition-colors pt-2"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               Return to Website
@@ -190,10 +189,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [activeTab, setActiveTab] = useState<"media" | "categories" | "cms">("media");
 
   return (
-    <main className="min-h-screen bg-[#070709] text-[#A1A1AA] px-4 sm:px-8 py-10 md:py-14">
+    <main className="min-h-screen bg-[#0F0F0F] text-[#AFAFAE] px-4 sm:px-8 py-10 md:py-14">
       <div className="max-w-7xl mx-auto">
         {/* Portal Header */}
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pb-8 border-b border-white/10">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 pb-8 border-b border-[#6B6A69]/20">
           <div>
             <div className="flex items-center gap-2.5">
               <span className="h-2.5 w-2.5 rounded-full bg-[var(--sage)] shadow-[0_0_10px_var(--sage)]" />
@@ -201,16 +200,15 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               Sunny Concepts / Studio Portal
               </p>
             </div>
-            <h1 className="mt-3 text-4xl sm:text-5xl font-light text-[#F4F4F5] tracking-tight">
+            <h1 className="mt-3 text-4xl sm:text-5xl font-light text-[#D9D9D9] tracking-tight">
               Studio Management
             </h1>
           </div>
 
           <div className="flex items-center gap-4">
-            <ThemeToggle />
             <Link
               to="/"
-              className="glass rounded-full px-5 py-2.5 text-xs tracking-[0.22em] uppercase text-[#F4F4F5] hover:border-white/30 transition-all flex items-center gap-1.5"
+              className="glass rounded-full px-5 py-2.5 text-xs tracking-[0.22em] uppercase text-[#D9D9D9] hover:border-white/30 transition-all flex items-center gap-1.5"
             >
               <ExternalLink className="w-3 h-3" />
               Live Site
@@ -226,13 +224,13 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         </header>
 
         {/* Tab Navigation */}
-        <div className="flex flex-wrap gap-3 mt-8 border-b border-white/10 pb-4">
+        <div className="flex flex-wrap gap-3 mt-8 border-b border-[#6B6A69]/20 pb-4">
           <button
             onClick={() => setActiveTab("media")}
             className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-xs tracking-[0.25em] uppercase font-semibold transition-all ${
               activeTab === "media"
-                ? "bg-[var(--sage)] text-[#070709] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
-                : "glass text-[#A1A1AA] hover:text-[#F4F4F5]"
+                ? "bg-[var(--sage)] text-[#0F0F0F] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
+                : "glass text-[#AFAFAE] hover:text-[#D9D9D9]"
             }`}
           >
             <FolderPlus className="w-4 h-4" />
@@ -243,8 +241,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             onClick={() => setActiveTab("categories")}
             className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-xs tracking-[0.25em] uppercase font-semibold transition-all ${
               activeTab === "categories"
-                ? "bg-[var(--sage)] text-[#070709] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
-                : "glass text-[#A1A1AA] hover:text-[#F4F4F5]"
+                ? "bg-[var(--sage)] text-[#0F0F0F] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
+                : "glass text-[#AFAFAE] hover:text-[#D9D9D9]"
             }`}
           >
             <Layers className="w-4 h-4" />
@@ -255,8 +253,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             onClick={() => setActiveTab("cms")}
             className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-xs tracking-[0.25em] uppercase font-semibold transition-all ${
               activeTab === "cms"
-                ? "bg-[var(--sage)] text-[#070709] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
-                : "glass text-[#A1A1AA] hover:text-[#F4F4F5]"
+                ? "bg-[var(--sage)] text-[#0F0F0F] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
+                : "glass text-[#AFAFAE] hover:text-[#D9D9D9]"
             }`}
           >
             <Save className="w-4 h-4" />
@@ -460,11 +458,11 @@ function BatchMediaManagerTab() {
   return (
     <div className="grid lg:grid-cols-[1.1fr_1.4fr] gap-8">
       {/* Batch Upload Form Card */}
-      <div className="glass rounded-3xl p-6 sm:p-8 h-fit border border-white/12 shadow-xl bg-[#111115]">
+      <div className="glass rounded-3xl p-6 sm:p-8 h-fit border border-[#6B6A69]/20 shadow-xl bg-[#3F3F3D]">
         <div className="flex justify-between items-start gap-4">
           <div>
-            <h2 className="text-2xl font-light text-[#F4F4F5]">Add Portfolio Media</h2>
-            <p className="mt-1 text-xs text-[#A1A1AA]">
+            <h2 className="text-2xl font-light text-[#D9D9D9]">Add Portfolio Media</h2>
+            <p className="mt-1 text-xs text-[#AFAFAE]">
               Add multiple images at once and prepare them for the portfolio.
             </p>
           </div>
@@ -475,7 +473,7 @@ function BatchMediaManagerTab() {
             title="Open media picker"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            Widget Modal
+            Add via Media Picker
           </button>
         </div>
 
@@ -492,7 +490,7 @@ function BatchMediaManagerTab() {
             className={`relative cursor-pointer rounded-2xl border-2 border-dashed p-6 text-center transition-all ${
               isDragging
                 ? "border-[var(--sage)] bg-[var(--sage)]/10"
-                : "border-white/15 bg-[#070709] hover:border-white/30"
+                : "border-[#6B6A69]/25 bg-[#0F0F0F] hover:border-white/30"
             }`}
           >
             <input
@@ -506,13 +504,13 @@ function BatchMediaManagerTab() {
 
             <div className="flex flex-col items-center justify-center py-4">
               <Upload className="w-8 h-8 text-[var(--sage)] mb-2" />
-              <p className="text-sm text-[#F4F4F5] font-medium">
+              <p className="text-sm text-[#D9D9D9] font-medium">
                 {selectedFiles.length > 0
                   ? `${selectedFiles.length} file${selectedFiles.length > 1 ? "s" : ""} queued for batch upload`
                   : "Drag & drop multiple images here"}
               </p>
-              <p className="text-xs text-[#A1A1AA] mt-1">or click to browse your system (batch mode)</p>
-              <span className="mt-3 text-[10px] tracking-[0.2em] uppercase glass rounded-full px-3 py-1 text-[#A1A1AA]">
+              <p className="text-xs text-[#AFAFAE] mt-1">or click to browse your system (batch mode)</p>
+              <span className="mt-3 text-[10px] tracking-[0.2em] uppercase glass rounded-full px-3 py-1 text-[#AFAFAE]">
                 PNG, JPG, WEBP, AVIF — MULTIPLE: TRUE
               </span>
             </div>
@@ -520,8 +518,8 @@ function BatchMediaManagerTab() {
 
           {/* Selected File Previews / Queue */}
           {selectedFiles.length > 0 && (
-            <div className="rounded-2xl border border-white/10 bg-[#070709] p-4 max-h-48 overflow-y-auto space-y-2">
-              <div className="flex justify-between items-center text-xs text-[#A1A1AA] pb-1 border-b border-white/5">
+            <div className="rounded-2xl border border-[#6B6A69]/20 bg-[#0F0F0F] p-4 max-h-48 overflow-y-auto space-y-2">
+              <div className="flex justify-between items-center text-xs text-[#AFAFAE] pb-1 border-b border-white/5">
                 <span>Selected queue ({selectedFiles.length} files)</span>
                 <button
                   type="button"
@@ -536,9 +534,9 @@ function BatchMediaManagerTab() {
                   key={`queued-file-${idx}-${f.name}`}
                   className="flex items-center justify-between text-xs py-1 px-2 rounded-lg bg-white/5"
                 >
-                  <span className="truncate max-w-[240px] text-[#F4F4F5]">{f.name}</span>
+                  <span className="truncate max-w-[240px] text-[#D9D9D9]">{f.name}</span>
                   <div className="flex items-center gap-3">
-                    <span className="text-[10px] text-[#A1A1AA]">{(f.size / 1024).toFixed(0)} KB</span>
+                    <span className="text-[10px] text-[#AFAFAE]">{(f.size / 1024).toFixed(0)} KB</span>
                     <button
                       type="button"
                       onClick={(e) => {
@@ -557,16 +555,16 @@ function BatchMediaManagerTab() {
 
           {/* Category Assignment */}
           <div>
-            <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+            <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
               Category Assignment
             </label>
             <select
               value={batchCategory}
               onChange={(e) => setBatchCategory(e.target.value)}
-              className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+              className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
             >
               {categories.map((c) => (
-                <option key={`cat-select-${c.id}`} value={c.name} className="bg-[#111115]">
+                <option key={`cat-select-${c.id}`} value={c.name} className="bg-[#3F3F3D]">
                   {c.name}
                 </option>
               ))}
@@ -575,36 +573,36 @@ function BatchMediaManagerTab() {
 
           {/* Optional Title Prefix */}
           <div>
-            <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
-              Title / Series Prefix <span className="text-[#A1A1AA]/50 font-normal">(optional)</span>
+            <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
+              Title / Series Prefix <span className="text-[#AFAFAE]/50 font-normal">(optional)</span>
             </label>
             <input
               type="text"
               value={defaultTitlePrefix}
               onChange={(e) => setDefaultTitlePrefix(e.target.value)}
               placeholder="e.g. Minimalist Identity or Art Cover"
-              className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)] placeholder:text-[#A1A1AA]/40"
+              className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)] placeholder:text-[#AFAFAE]/40"
             />
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
-              Description / Notes <span className="text-[#A1A1AA]/50 font-normal">(optional)</span>
+            <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
+              Description / Notes <span className="text-[#AFAFAE]/50 font-normal">(optional)</span>
             </label>
             <textarea
               value={batchDescription}
               onChange={(e) => setBatchDescription(e.target.value)}
               rows={2}
               placeholder="Short commentary on the project background..."
-              className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)] placeholder:text-[#A1A1AA]/40"
+              className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)] placeholder:text-[#AFAFAE]/40"
             />
           </div>
 
           {/* Progress Indicator */}
           {uploadProgress && (
-            <div className="space-y-1.5 p-3 rounded-xl bg-white/5 border border-white/10">
-              <div className="flex justify-between text-xs text-[#F4F4F5]">
+            <div className="space-y-1.5 p-3 rounded-xl bg-white/5 border border-[#6B6A69]/20">
+              <div className="flex justify-between text-xs text-[#D9D9D9]">
                 <span>Uploading batch...</span>
                 <span>
                   {uploadProgress.completed} / {uploadProgress.total}
@@ -619,7 +617,7 @@ function BatchMediaManagerTab() {
                 />
               </div>
               {uploadProgress.current && (
-                <p className="text-[10px] text-[#A1A1AA] truncate">Current: {uploadProgress.current}</p>
+                <p className="text-[10px] text-[#AFAFAE] truncate">Current: {uploadProgress.current}</p>
               )}
             </div>
           )}
@@ -630,7 +628,7 @@ function BatchMediaManagerTab() {
             className={`w-full rounded-2xl py-3.5 text-xs tracking-[0.25em] uppercase font-semibold transition-all flex items-center justify-center gap-2 ${
               isUploading || selectedFiles.length === 0
                 ? "bg-white/10 text-white/40 cursor-not-allowed"
-                : "bg-[var(--sage)] text-[#070709] hover:brightness-110 active:scale-[0.99] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
+                : "bg-[var(--sage)] text-[#0F0F0F] hover:brightness-110 active:scale-[0.99] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
             }`}
           >
             {isUploading ? (
@@ -649,17 +647,17 @@ function BatchMediaManagerTab() {
       </div>
 
       {/* Cataloged Items List */}
-      <div className="glass rounded-3xl p-6 sm:p-8 border border-white/12 shadow-xl bg-[#111115]">
+      <div className="glass rounded-3xl p-6 sm:p-8 border border-[#6B6A69]/20 shadow-xl bg-[#3F3F3D]">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h2 className="text-2xl font-light text-[#F4F4F5]">Live Portfolio Archive</h2>
-            <p className="text-xs text-[#A1A1AA]">
+            <h2 className="text-2xl font-light text-[#D9D9D9]">Live Portfolio Archive</h2>
+            <p className="text-xs text-[#AFAFAE]">
               {items.length} portfolio asset{items.length !== 1 ? "s" : ""} currently published
             </p>
           </div>
           <button
             onClick={loadItems}
-            className="glass rounded-full p-2.5 text-[#A1A1AA] hover:text-[#F4F4F5] transition-colors"
+            className="glass rounded-full p-2.5 text-[#AFAFAE] hover:text-[#D9D9D9] transition-colors"
             title="Refresh portfolio"
           >
             <RefreshCw className={`w-4 h-4 ${isLoadingItems ? "animate-spin" : ""}`} />
@@ -673,10 +671,10 @@ function BatchMediaManagerTab() {
             ))}
           </div>
         ) : items.length === 0 ? (
-          <div className="rounded-2xl border border-white/10 bg-[#070709] p-12 text-center">
-            <ImageIcon className="w-10 h-10 mx-auto text-[#A1A1AA]/40 mb-3" />
-            <p className="text-sm text-[#F4F4F5]">No portfolio assets yet.</p>
-            <p className="text-xs text-[#A1A1AA] mt-1">
+          <div className="rounded-2xl border border-[#6B6A69]/20 bg-[#0F0F0F] p-12 text-center">
+            <ImageIcon className="w-10 h-10 mx-auto text-[#AFAFAE]/40 mb-3" />
+            <p className="text-sm text-[#D9D9D9]">No portfolio assets yet.</p>
+            <p className="text-xs text-[#AFAFAE] mt-1">
               Select files or use the media picker on the left to start publishing.
             </p>
           </div>
@@ -685,10 +683,10 @@ function BatchMediaManagerTab() {
             {items.map((item) => (
               <div
                 key={`admin-portfolio-item-${item.id}`}
-                className="flex items-center justify-between p-3.5 rounded-2xl bg-[#070709] border border-white/10 hover:border-white/20 transition-all gap-4"
+                className="flex items-center justify-between p-3.5 rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/20 hover:border-white/20 transition-all gap-4"
               >
                 <div className="flex items-center gap-3.5 min-w-0">
-                  <div className="h-14 w-14 shrink-0 rounded-xl overflow-hidden bg-black/50 border border-white/10">
+                  <div className="h-14 w-14 shrink-0 rounded-xl overflow-hidden bg-black/50 border border-[#6B6A69]/20">
                     <img
                       src={optimizeCloudinaryUrl(item.image_url)}
                       alt={item.title}
@@ -697,13 +695,13 @@ function BatchMediaManagerTab() {
                     />
                   </div>
                   <div className="min-w-0">
-                    <h4 className="text-sm text-[#F4F4F5] truncate font-medium">{item.title}</h4>
+                    <h4 className="text-sm text-[#D9D9D9] truncate font-medium">{item.title}</h4>
                     <div className="flex items-center gap-2 mt-1">
                       <span className="text-[10px] tracking-[0.2em] uppercase px-2 py-0.5 rounded-full bg-[var(--sage)]/10 text-[var(--sage)] font-mono">
                         {item.category}
                       </span>
                       {item.created_at && (
-                        <span className="text-[10px] text-[#A1A1AA]">
+                        <span className="text-[10px] text-[#AFAFAE]">
                           {new Date(item.created_at).toLocaleDateString()}
                         </span>
                       )}
@@ -716,7 +714,7 @@ function BatchMediaManagerTab() {
                     href={item.image_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-2 rounded-xl text-[#A1A1AA] hover:text-[#F4F4F5] hover:bg-white/5 transition-all"
+                    className="p-2 rounded-xl text-[#AFAFAE] hover:text-[#D9D9D9] hover:bg-white/5 transition-all"
                     title="Open CDN Image"
                   >
                     <ExternalLink className="w-4 h-4" />
@@ -831,15 +829,15 @@ function CategoryManagerTab() {
   return (
     <div className="grid lg:grid-cols-[1fr_1.5fr] gap-8">
       {/* Create Category Panel */}
-      <div className="glass rounded-3xl p-6 sm:p-8 h-fit border border-white/12 shadow-xl bg-[#111115]">
-        <h2 className="text-2xl font-light text-[#F4F4F5]">Add New Category</h2>
-        <p className="mt-1 text-xs text-[#A1A1AA]">
+      <div className="glass rounded-3xl p-6 sm:p-8 h-fit border border-[#6B6A69]/20 shadow-xl bg-[#3F3F3D]">
+        <h2 className="text-2xl font-light text-[#D9D9D9]">Add New Category</h2>
+        <p className="mt-1 text-xs text-[#AFAFAE]">
           Create a new portfolio discipline. Landing page filter tabs update automatically.
         </p>
 
         <form onSubmit={handleAddCategory} className="mt-6 space-y-4">
           <div>
-            <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+            <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
               Category Name
             </label>
             <input
@@ -847,7 +845,7 @@ function CategoryManagerTab() {
               value={newCatName}
               onChange={(e) => setNewCatName(e.target.value)}
               placeholder="e.g. 3D Architectural Renders"
-              className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3.5 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+              className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3.5 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
             />
           </div>
 
@@ -857,7 +855,7 @@ function CategoryManagerTab() {
             className={`w-full rounded-2xl py-3.5 text-xs tracking-[0.25em] uppercase font-semibold transition-all flex items-center justify-center gap-2 ${
               isAdding || !newCatName.trim()
                 ? "bg-white/10 text-white/40 cursor-not-allowed"
-                : "bg-[var(--sage)] text-[#070709] hover:brightness-110 active:scale-[0.99] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
+                : "bg-[var(--sage)] text-[#0F0F0F] hover:brightness-110 active:scale-[0.99] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
             }`}
           >
             <Plus className="w-4 h-4" />
@@ -865,11 +863,11 @@ function CategoryManagerTab() {
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-white/10">
-          <h3 className="text-xs uppercase tracking-[0.2em] text-[#F4F4F5] font-semibold mb-2">
+        <div className="mt-8 pt-6 border-t border-[#6B6A69]/20">
+          <h3 className="text-xs uppercase tracking-[0.2em] text-[#D9D9D9] font-semibold mb-2">
             Safety & Auto-Relinking Note
           </h3>
-          <p className="text-xs text-[#A1A1AA] leading-relaxed">
+          <p className="text-xs text-[#AFAFAE] leading-relaxed">
             Renaming a category automatically updates its portfolio entries.
             Removing a category lets you move its portfolio assets first or remove them cleanly.
           </p>
@@ -877,17 +875,17 @@ function CategoryManagerTab() {
       </div>
 
       {/* Categories CRUD List */}
-      <div className="glass rounded-3xl p-6 sm:p-8 border border-white/12 shadow-xl bg-[#111115]">
+      <div className="glass rounded-3xl p-6 sm:p-8 border border-[#6B6A69]/20 shadow-xl bg-[#3F3F3D]">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h2 className="text-2xl font-light text-[#F4F4F5]">Active Portfolio Categories</h2>
-            <p className="text-xs text-[#A1A1AA]">
+            <h2 className="text-2xl font-light text-[#D9D9D9]">Active Portfolio Categories</h2>
+            <p className="text-xs text-[#AFAFAE]">
               {categories.length} categories configured with real-time asset counts
             </p>
           </div>
           <button
             onClick={() => refresh()}
-            className="glass rounded-full p-2.5 text-[#A1A1AA] hover:text-[#F4F4F5] transition-colors"
+            className="glass rounded-full p-2.5 text-[#AFAFAE] hover:text-[#D9D9D9] transition-colors"
             title="Refresh categories"
           >
             <RefreshCw className="w-4 h-4" />
@@ -902,7 +900,7 @@ function CategoryManagerTab() {
             return (
               <div
                 key={`cat-crud-${cat.id}`}
-                className="flex items-center justify-between p-4 rounded-2xl bg-[#070709] border border-white/10 hover:border-white/20 transition-all gap-4"
+                className="flex items-center justify-between p-4 rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/20 hover:border-white/20 transition-all gap-4"
               >
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   {/* Reorder Buttons */}
@@ -912,7 +910,7 @@ function CategoryManagerTab() {
                       disabled={idx === 0}
                       onClick={() => handleMove(idx, "up")}
                       className={`p-1 rounded text-xs transition-colors ${
-                        idx === 0 ? "text-white/10" : "text-[#A1A1AA] hover:text-[#F4F4F5] hover:bg-white/5"
+                        idx === 0 ? "text-white/10" : "text-[#AFAFAE] hover:text-[#D9D9D9] hover:bg-white/5"
                       }`}
                       title="Move up"
                     >
@@ -925,7 +923,7 @@ function CategoryManagerTab() {
                       className={`p-1 rounded text-xs transition-colors ${
                         idx === categories.length - 1
                           ? "text-white/10"
-                          : "text-[#A1A1AA] hover:text-[#F4F4F5] hover:bg-white/5"
+                          : "text-[#AFAFAE] hover:text-[#D9D9D9] hover:bg-white/5"
                       }`}
                       title="Move down"
                     >
@@ -940,19 +938,19 @@ function CategoryManagerTab() {
                         type="text"
                         value={editingName}
                         onChange={(e) => setEditingName(e.target.value)}
-                        className="rounded-xl bg-[#111115] border border-[var(--sage)] px-3 py-1.5 text-sm text-[#F4F4F5] outline-none flex-1"
+                        className="rounded-xl bg-[#3F3F3D] border border-[var(--sage)] px-3 py-1.5 text-sm text-[#D9D9D9] outline-none flex-1"
                         autoFocus
                       />
                       <button
                         onClick={() => handleSaveRename(cat)}
-                        className="p-2 rounded-xl bg-[var(--sage)] text-[#070709] hover:brightness-110"
+                        className="p-2 rounded-xl bg-[var(--sage)] text-[#0F0F0F] hover:brightness-110"
                         title="Save rename"
                       >
                         <Check className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => setEditingId(null)}
-                        className="p-2 rounded-xl bg-white/10 text-[#F4F4F5] hover:bg-white/20"
+                        className="p-2 rounded-xl bg-white/10 text-[#D9D9D9] hover:bg-white/20"
                         title="Cancel"
                       >
                         <X className="w-3.5 h-3.5" />
@@ -961,12 +959,12 @@ function CategoryManagerTab() {
                   ) : (
                     <div className="min-w-0">
                       <div className="flex items-center gap-2.5">
-                        <span className="text-sm font-medium text-[#F4F4F5]">{cat.name}</span>
-                        <span className="text-[10px] tracking-[0.2em] uppercase px-2 py-0.5 rounded-full bg-white/5 text-[#A1A1AA] font-mono">
+                        <span className="text-sm font-medium text-[#D9D9D9]">{cat.name}</span>
+                        <span className="text-[10px] tracking-[0.2em] uppercase px-2 py-0.5 rounded-full bg-white/5 text-[#AFAFAE] font-mono">
                           {cat.slug}
                         </span>
                       </div>
-                      <p className="text-[11px] text-[#A1A1AA] mt-0.5">
+                      <p className="text-[11px] text-[#AFAFAE] mt-0.5">
                         {count} asset{count !== 1 ? "s" : ""} cataloged
                       </p>
                     </div>
@@ -977,7 +975,7 @@ function CategoryManagerTab() {
                   <div className="flex items-center gap-2 shrink-0">
                     <button
                       onClick={() => handleStartRename(cat)}
-                      className="p-2 rounded-xl text-[#A1A1AA] hover:text-[#F4F4F5] hover:bg-white/5 transition-all"
+                      className="p-2 rounded-xl text-[#AFAFAE] hover:text-[#D9D9D9] hover:bg-white/5 transition-all"
                       title="Rename Category"
                     >
                       <Edit2 className="w-4 h-4" />
@@ -1000,32 +998,32 @@ function CategoryManagerTab() {
       {/* Safety Modal for Category Deletion */}
       {deletingCat && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="glass-strong rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-white/15 bg-[#111115]">
-            <h3 className="text-xl font-light text-[#F4F4F5]">
+          <div className="glass-strong rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-[#6B6A69]/25 bg-[#3F3F3D]">
+            <h3 className="text-xl font-light text-[#D9D9D9]">
               Delete Category: "{deletingCat.name}"
             </h3>
-            <p className="mt-2 text-sm text-[#A1A1AA] leading-relaxed">
+            <p className="mt-2 text-sm text-[#AFAFAE] leading-relaxed">
               There are currently {itemCounts[deletingCat.id] ?? 0} assets assigned to this category.
               How would you like to handle existing assets?
             </p>
 
             <div className="mt-6 space-y-4">
               <div>
-                <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+                <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                   Option A: Reassign assets to another category
                 </label>
                 <select
                   value={reassignCategoryName}
                   onChange={(e) => setReassignCategoryName(e.target.value)}
-                  className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none"
+                  className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none"
                 >
-                  <option value="" className="bg-[#111115]">
+                  <option value="" className="bg-[#3F3F3D]">
                     Select destination category...
                   </option>
                   {categories
                     .filter((c) => c.id !== deletingCat.id)
                     .map((c) => (
-                      <option key={`reassign-target-${c.id}`} value={c.name} className="bg-[#111115]">
+                      <option key={`reassign-target-${c.id}`} value={c.name} className="bg-[#3F3F3D]">
                         {c.name}
                       </option>
                     ))}
@@ -1037,7 +1035,7 @@ function CategoryManagerTab() {
                   onClick={() => confirmDeleteCategory(false)}
                   className={`mt-2 w-full rounded-xl py-2.5 text-xs uppercase tracking-[0.2em] font-semibold transition-all ${
                     reassignCategoryName
-                      ? "bg-[var(--sage)] text-[#070709] hover:brightness-110"
+                      ? "bg-[var(--sage)] text-[#0F0F0F] hover:brightness-110"
                       : "bg-white/10 text-white/30 cursor-not-allowed"
                   }`}
                 >
@@ -1045,7 +1043,7 @@ function CategoryManagerTab() {
                 </button>
               </div>
 
-              <div className="pt-4 border-t border-white/10">
+              <div className="pt-4 border-t border-[#6B6A69]/20">
                 <label className="block text-xs uppercase tracking-[0.2em] text-red-400 mb-2 font-medium">
                   Option B: Permanently delete all associated assets
                 </label>
@@ -1062,7 +1060,7 @@ function CategoryManagerTab() {
             <button
               type="button"
               onClick={() => setDeletingCat(null)}
-              className="mt-6 w-full rounded-xl py-2.5 text-xs uppercase tracking-[0.2em] glass text-[#A1A1AA] hover:text-[#F4F4F5] transition-all"
+              className="mt-6 w-full rounded-xl py-2.5 text-xs uppercase tracking-[0.2em] glass text-[#AFAFAE] hover:text-[#D9D9D9] transition-all"
             >
               Cancel
             </button>
@@ -1131,10 +1129,10 @@ function UniversalCmsTab() {
   return (
     <form onSubmit={handleSaveAll} className="space-y-10">
       {/* Action Bar Sticky Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-5 rounded-2xl glass border border-white/15 bg-[#111115] sticky top-4 z-20 shadow-xl">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-5 rounded-2xl glass border border-[#6B6A69]/25 bg-[#3F3F3D] sticky top-4 z-20 shadow-xl">
         <div>
-          <h2 className="text-xl font-light text-[#F4F4F5]">Universal Site-Wide CMS</h2>
-          <p className="text-xs text-[#A1A1AA]">
+          <h2 className="text-xl font-light text-[#D9D9D9]">Site Content Manager</h2>
+          <p className="text-xs text-[#AFAFAE]">
             Edit the words and visuals that appear across the Sunny Concepts website.
           </p>
         </div>
@@ -1144,7 +1142,7 @@ function UniversalCmsTab() {
           className={`flex items-center gap-2 px-8 py-3.5 rounded-2xl text-xs tracking-[0.25em] uppercase font-semibold transition-all ${
             isSaving
               ? "bg-white/10 text-white/40 cursor-not-allowed"
-              : "bg-[var(--sage)] text-[#070709] hover:brightness-110 active:scale-[0.99] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
+              : "bg-[var(--sage)] text-[#0F0F0F] hover:brightness-110 active:scale-[0.99] shadow-[0_0_20px_rgba(183,215,193,0.3)]"
           }`}
         >
           {isSaving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
@@ -1153,10 +1151,10 @@ function UniversalCmsTab() {
       </div>
 
       {/* 1. CEO / FOUNDER PROFILE */}
-      <div className="glass rounded-3xl p-6 sm:p-8 border border-white/12 bg-[#111115]">
-        <div className="flex items-center gap-2.5 mb-6 pb-4 border-b border-white/10">
+      <div className="glass rounded-3xl p-6 sm:p-8 border border-[#6B6A69]/20 bg-[#3F3F3D]">
+        <div className="flex items-center gap-2.5 mb-6 pb-4 border-b border-[#6B6A69]/20">
           <span className="h-2 w-2 rounded-full bg-[var(--sage)]" />
-          <h3 className="text-lg font-light text-[#F4F4F5] uppercase tracking-[0.2em]">
+          <h3 className="text-lg font-light text-[#D9D9D9] uppercase tracking-[0.2em]">
             1. CEO & Founder Profile
           </h3>
         </div>
@@ -1164,10 +1162,10 @@ function UniversalCmsTab() {
         <div className="grid md:grid-cols-[240px_1fr] gap-8">
           {/* Portrait Uploader */}
           <div>
-            <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+            <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
               Founder Portrait
             </label>
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-white/15 bg-[#070709] flex flex-col items-center justify-center group">
+            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-[#6B6A69]/25 bg-[#0F0F0F] flex flex-col items-center justify-center group">
               {formData.about_founder_portrait_url ? (
                 <>
                   <img
@@ -1179,7 +1177,7 @@ function UniversalCmsTab() {
                     <button
                       type="button"
                       onClick={() => portraitInputRef.current?.click()}
-                      className="rounded-full px-4 py-2 bg-[var(--sage)] text-[#070709] text-xs font-semibold uppercase tracking-wider"
+                      className="rounded-full px-4 py-2 bg-[var(--sage)] text-[#0F0F0F] text-xs font-semibold uppercase tracking-wider"
                     >
                       Replace
                     </button>
@@ -1191,8 +1189,8 @@ function UniversalCmsTab() {
                   className="cursor-pointer text-center p-4 flex flex-col items-center"
                 >
                   <Upload className="w-8 h-8 text-[var(--sage)] mb-2" />
-                  <p className="text-xs text-[#F4F4F5] font-medium">Upload Portrait</p>
-                  <p className="text-[10px] text-[#A1A1AA] mt-1">Add to Media Library</p>
+                  <p className="text-xs text-[#D9D9D9] font-medium">Upload Portrait</p>
+                  <p className="text-[10px] text-[#AFAFAE] mt-1">Add to Media Library</p>
                 </div>
               )}
 
@@ -1214,7 +1212,7 @@ function UniversalCmsTab() {
             <button
               type="button"
               onClick={() => portraitInputRef.current?.click()}
-              className="mt-3 w-full rounded-xl py-2 text-[11px] tracking-[0.18em] uppercase glass hover:border-white/30 text-[#F4F4F5] transition-all"
+              className="mt-3 w-full rounded-xl py-2 text-[11px] tracking-[0.18em] uppercase glass hover:border-white/30 text-[#D9D9D9] transition-all"
             >
               Upload Asset
             </button>
@@ -1224,63 +1222,63 @@ function UniversalCmsTab() {
           <div className="space-y-4">
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+                <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                   Founder Name
                 </label>
                 <input
                   type="text"
                   value={formData.about_founder_name}
                   onChange={(e) => handleChange("about_founder_name", e.target.value)}
-                  className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                  className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+                <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                   Founder Title
                 </label>
                 <input
                   type="text"
                   value={formData.about_founder_title}
                   onChange={(e) => handleChange("about_founder_title", e.target.value)}
-                  className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                  className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                 Founder Bio (Paragraph 1)
               </label>
               <textarea
                 rows={3}
                 value={formData.about_bio_p1}
                 onChange={(e) => handleChange("about_bio_p1", e.target.value)}
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
               />
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                 Founder Bio (Paragraph 2)
               </label>
               <textarea
                 rows={3}
                 value={formData.about_bio_p2}
                 onChange={(e) => handleChange("about_bio_p2", e.target.value)}
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
               />
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                 Company Mission Statement
               </label>
               <input
                 type="text"
                 value={formData.about_mission}
                 onChange={(e) => handleChange("about_mission", e.target.value)}
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
               />
             </div>
           </div>
@@ -1288,10 +1286,10 @@ function UniversalCmsTab() {
       </div>
 
       {/* 2. HERO SECTION */}
-      <div className="glass rounded-3xl p-6 sm:p-8 border border-white/12 bg-[#111115]">
-        <div className="flex items-center gap-2.5 mb-6 pb-4 border-b border-white/10">
+      <div className="glass rounded-3xl p-6 sm:p-8 border border-[#6B6A69]/20 bg-[#3F3F3D]">
+        <div className="flex items-center gap-2.5 mb-6 pb-4 border-b border-[#6B6A69]/20">
           <span className="h-2 w-2 rounded-full bg-[var(--sage)]" />
-          <h3 className="text-lg font-light text-[#F4F4F5] uppercase tracking-[0.2em]">
+          <h3 className="text-lg font-light text-[#D9D9D9] uppercase tracking-[0.2em]">
             2. Hero Section
           </h3>
         </div>
@@ -1299,99 +1297,99 @@ function UniversalCmsTab() {
         <div className="space-y-4">
           <div className="grid sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                 Headline (Line 1)
               </label>
               <input
                 type="text"
                 value={formData.hero_headline_line1}
                 onChange={(e) => handleChange("hero_headline_line1", e.target.value)}
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
               />
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                 Headline (Italic Accent)
               </label>
               <input
                 type="text"
                 value={formData.hero_headline_italic}
                 onChange={(e) => handleChange("hero_headline_italic", e.target.value)}
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
               />
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                 Headline (Line 2)
               </label>
               <input
                 type="text"
                 value={formData.hero_headline_line2}
                 onChange={(e) => handleChange("hero_headline_line2", e.target.value)}
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+            <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
               Hero Subtitle
             </label>
             <input
               type="text"
               value={formData.hero_subtitle}
               onChange={(e) => handleChange("hero_subtitle", e.target.value)}
-              className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+              className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
             />
           </div>
 
           <div className="grid sm:grid-cols-2 gap-6 pt-2">
-            <div className="p-4 rounded-2xl bg-[#070709] border border-white/10 space-y-3">
+            <div className="p-4 rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/20 space-y-3">
               <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--sage)] font-mono">
                 Primary CTA Button
               </span>
               <div>
-                <label className="block text-[11px] text-[#A1A1AA] mb-1">Button Label</label>
+                <label className="block text-[11px] text-[#AFAFAE] mb-1">Button Label</label>
                 <input
                   type="text"
                   value={formData.hero_cta_portfolio_text}
                   onChange={(e) => handleChange("hero_cta_portfolio_text", e.target.value)}
-                  className="w-full rounded-xl bg-[#111115] border border-white/15 px-3 py-2 text-xs text-[#F4F4F5] outline-none"
+                  className="w-full rounded-xl bg-[#3F3F3D] border border-[#6B6A69]/25 px-3 py-2 text-xs text-[#D9D9D9] outline-none"
                 />
               </div>
               <div>
-                <label className="block text-[11px] text-[#A1A1AA] mb-1">Target Href (Link)</label>
+                <label className="block text-[11px] text-[#AFAFAE] mb-1">Target Href (Link)</label>
                 <input
                   type="text"
                   value={formData.hero_cta_portfolio_href}
                   onChange={(e) => handleChange("hero_cta_portfolio_href", e.target.value)}
-                  className="w-full rounded-xl bg-[#111115] border border-white/15 px-3 py-2 text-xs text-[#F4F4F5] outline-none"
+                  className="w-full rounded-xl bg-[#3F3F3D] border border-[#6B6A69]/25 px-3 py-2 text-xs text-[#D9D9D9] outline-none"
                 />
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#070709] border border-white/10 space-y-3">
+            <div className="p-4 rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/20 space-y-3">
               <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--sage)] font-mono">
                 Secondary CTA Button
               </span>
               <div>
-                <label className="block text-[11px] text-[#A1A1AA] mb-1">Button Label</label>
+                <label className="block text-[11px] text-[#AFAFAE] mb-1">Button Label</label>
                 <input
                   type="text"
                   value={formData.hero_cta_contact_text}
                   onChange={(e) => handleChange("hero_cta_contact_text", e.target.value)}
-                  className="w-full rounded-xl bg-[#111115] border border-white/15 px-3 py-2 text-xs text-[#F4F4F5] outline-none"
+                  className="w-full rounded-xl bg-[#3F3F3D] border border-[#6B6A69]/25 px-3 py-2 text-xs text-[#D9D9D9] outline-none"
                 />
               </div>
               <div>
-                <label className="block text-[11px] text-[#A1A1AA] mb-1">Target Href (Link)</label>
+                <label className="block text-[11px] text-[#AFAFAE] mb-1">Target Href (Link)</label>
                 <input
                   type="text"
                   value={formData.hero_cta_contact_href}
                   onChange={(e) => handleChange("hero_cta_contact_href", e.target.value)}
-                  className="w-full rounded-xl bg-[#111115] border border-white/15 px-3 py-2 text-xs text-[#F4F4F5] outline-none"
+                  className="w-full rounded-xl bg-[#3F3F3D] border border-[#6B6A69]/25 px-3 py-2 text-xs text-[#D9D9D9] outline-none"
                 />
               </div>
             </div>
@@ -1400,10 +1398,10 @@ function UniversalCmsTab() {
       </div>
 
       {/* 3. SERVICES SECTION (4 DISCIPLINES) */}
-      <div className="glass rounded-3xl p-6 sm:p-8 border border-white/12 bg-[#111115]">
-        <div className="flex items-center gap-2.5 mb-6 pb-4 border-b border-white/10">
+      <div className="glass rounded-3xl p-6 sm:p-8 border border-[#6B6A69]/20 bg-[#3F3F3D]">
+        <div className="flex items-center gap-2.5 mb-6 pb-4 border-b border-[#6B6A69]/20">
           <span className="h-2 w-2 rounded-full bg-[var(--sage)]" />
-          <h3 className="text-lg font-light text-[#F4F4F5] uppercase tracking-[0.2em]">
+          <h3 className="text-lg font-light text-[#D9D9D9] uppercase tracking-[0.2em]">
             3. Services Section & Disciplines
           </h3>
         </div>
@@ -1411,25 +1409,25 @@ function UniversalCmsTab() {
         <div className="space-y-6">
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                 Section Headline
               </label>
               <input
                 type="text"
                 value={formData.services_headline}
                 onChange={(e) => handleChange("services_headline", e.target.value)}
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
               />
             </div>
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                 Headline (Italic Accent)
               </label>
               <input
                 type="text"
                 value={formData.services_headline_italic}
                 onChange={(e) => handleChange("services_headline_italic", e.target.value)}
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
               />
             </div>
           </div>
@@ -1443,7 +1441,7 @@ function UniversalCmsTab() {
               return (
                 <div
                   key={`service-editor-card-${num}`}
-                  className="p-5 rounded-2xl bg-[#070709] border border-white/10 space-y-3"
+                  className="p-5 rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/20 space-y-3"
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-xs uppercase tracking-[0.25em] text-[var(--sage)] font-mono font-semibold">
@@ -1453,27 +1451,27 @@ function UniversalCmsTab() {
                       type="text"
                       value={formData[numKey] as string}
                       onChange={(e) => handleChange(numKey, e.target.value)}
-                      className="w-16 text-center rounded-lg bg-[#111115] border border-white/15 px-2 py-1 text-xs text-[#F4F4F5] outline-none"
+                      className="w-16 text-center rounded-lg bg-[#3F3F3D] border border-[#6B6A69]/25 px-2 py-1 text-xs text-[#D9D9D9] outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] text-[#A1A1AA] mb-1">Discipline Title</label>
+                    <label className="block text-[11px] text-[#AFAFAE] mb-1">Discipline Title</label>
                     <input
                       type="text"
                       value={formData[titleKey] as string}
                       onChange={(e) => handleChange(titleKey, e.target.value)}
-                      className="w-full rounded-xl bg-[#111115] border border-white/15 px-3 py-2 text-xs text-[#F4F4F5] outline-none"
+                      className="w-full rounded-xl bg-[#3F3F3D] border border-[#6B6A69]/25 px-3 py-2 text-xs text-[#D9D9D9] outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] text-[#A1A1AA] mb-1">Description</label>
+                    <label className="block text-[11px] text-[#AFAFAE] mb-1">Description</label>
                     <textarea
                       rows={2}
                       value={formData[descKey] as string}
                       onChange={(e) => handleChange(descKey, e.target.value)}
-                      className="w-full rounded-xl bg-[#111115] border border-white/15 px-3 py-2 text-xs text-[#F4F4F5] outline-none"
+                      className="w-full rounded-xl bg-[#3F3F3D] border border-[#6B6A69]/25 px-3 py-2 text-xs text-[#D9D9D9] outline-none"
                     />
                   </div>
                 </div>
@@ -1484,16 +1482,16 @@ function UniversalCmsTab() {
       </div>
 
       {/* 4. CLIENT MARQUEE & BRAND COPY */}
-      <div className="glass rounded-3xl p-6 sm:p-8 border border-white/12 bg-[#111115]">
-        <div className="flex items-center gap-2.5 mb-6 pb-4 border-b border-white/10">
+      <div className="glass rounded-3xl p-6 sm:p-8 border border-[#6B6A69]/20 bg-[#3F3F3D]">
+        <div className="flex items-center gap-2.5 mb-6 pb-4 border-b border-[#6B6A69]/20">
           <span className="h-2 w-2 rounded-full bg-[var(--sage)]" />
-          <h3 className="text-lg font-light text-[#F4F4F5] uppercase tracking-[0.2em]">
+          <h3 className="text-lg font-light text-[#D9D9D9] uppercase tracking-[0.2em]">
             4. Client Marquee & Partner Brands
           </h3>
         </div>
 
         <div>
-          <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+          <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
             Client Brands (Comma-separated list)
           </label>
           <input
@@ -1501,19 +1499,19 @@ function UniversalCmsTab() {
             value={formData.client_marquee_list}
             onChange={(e) => handleChange("client_marquee_list", e.target.value)}
             placeholder="Rommdar, Carlton Park, Kugye, Prince Delight, Habakkuk Godwin, Minister GSP"
-            className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+            className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
           />
-          <p className="mt-2 text-xs text-[#A1A1AA]">
+          <p className="mt-2 text-xs text-[#AFAFAE]">
             Rendered across the client trust marquee on the public portfolio page.
           </p>
         </div>
       </div>
 
       {/* 5. FOOTER & CONTACT CHANNELS */}
-      <div className="glass rounded-3xl p-6 sm:p-8 border border-white/12 bg-[#111115]">
-        <div className="flex items-center gap-2.5 mb-6 pb-4 border-b border-white/10">
+      <div className="glass rounded-3xl p-6 sm:p-8 border border-[#6B6A69]/20 bg-[#3F3F3D]">
+        <div className="flex items-center gap-2.5 mb-6 pb-4 border-b border-[#6B6A69]/20">
           <span className="h-2 w-2 rounded-full bg-[var(--sage)]" />
-          <h3 className="text-lg font-light text-[#F4F4F5] uppercase tracking-[0.2em]">
+          <h3 className="text-lg font-light text-[#D9D9D9] uppercase tracking-[0.2em]">
             5. Footer & Contact Channels
           </h3>
         </div>
@@ -1521,106 +1519,106 @@ function UniversalCmsTab() {
         <div className="space-y-4">
           <div className="grid sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                 Studio Email Address
               </label>
               <input
                 type="email"
                 value={formData.contact_email}
                 onChange={(e) => handleChange("contact_email", e.target.value)}
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
               />
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                 Phone / WhatsApp Number
               </label>
               <input
                 type="text"
                 value={formData.contact_phone}
                 onChange={(e) => handleChange("contact_phone", e.target.value)}
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
               />
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
                 Studio Physical Location
               </label>
               <input
                 type="text"
                 value={formData.studio_location}
                 onChange={(e) => handleChange("studio_location", e.target.value)}
-                className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+                className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs uppercase tracking-[0.2em] text-[#A1A1AA] mb-2 font-medium">
+            <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
               WhatsApp Pre-filled Greeting
             </label>
             <input
               type="text"
               value={formData.contact_whatsapp_text}
               onChange={(e) => handleChange("contact_whatsapp_text", e.target.value)}
-              className="w-full rounded-2xl bg-[#070709] border border-white/15 px-4 py-3 text-sm text-[#F4F4F5] outline-none focus:border-[var(--sage)]"
+              className="w-full rounded-2xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-4 py-3 text-sm text-[#D9D9D9] outline-none focus:border-[var(--sage)]"
             />
           </div>
 
-          <div className="pt-4 border-t border-white/10">
-            <span className="block text-xs uppercase tracking-[0.2em] text-[#F4F4F5] font-semibold mb-3">
+          <div className="pt-4 border-t border-[#6B6A69]/20">
+            <span className="block text-xs uppercase tracking-[0.2em] text-[#D9D9D9] font-semibold mb-3">
               Social Media Profile Links
             </span>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
-                <label className="block text-[11px] text-[#A1A1AA] mb-1">Instagram URL</label>
+                <label className="block text-[11px] text-[#AFAFAE] mb-1">Instagram URL</label>
                 <input
                   type="text"
                   value={formData.social_instagram}
                   onChange={(e) => handleChange("social_instagram", e.target.value)}
-                  className="w-full rounded-xl bg-[#070709] border border-white/15 px-3 py-2 text-xs text-[#F4F4F5] outline-none"
+                  className="w-full rounded-xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-3 py-2 text-xs text-[#D9D9D9] outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] text-[#A1A1AA] mb-1">LinkedIn URL</label>
+                <label className="block text-[11px] text-[#AFAFAE] mb-1">LinkedIn URL</label>
                 <input
                   type="text"
                   value={formData.social_linkedin}
                   onChange={(e) => handleChange("social_linkedin", e.target.value)}
-                  className="w-full rounded-xl bg-[#070709] border border-white/15 px-3 py-2 text-xs text-[#F4F4F5] outline-none"
+                  className="w-full rounded-xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-3 py-2 text-xs text-[#D9D9D9] outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] text-[#A1A1AA] mb-1">X (Twitter) URL</label>
+                <label className="block text-[11px] text-[#AFAFAE] mb-1">X (Twitter) URL</label>
                 <input
                   type="text"
                   value={formData.social_x}
                   onChange={(e) => handleChange("social_x", e.target.value)}
-                  className="w-full rounded-xl bg-[#070709] border border-white/15 px-3 py-2 text-xs text-[#F4F4F5] outline-none"
+                  className="w-full rounded-xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-3 py-2 text-xs text-[#D9D9D9] outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] text-[#A1A1AA] mb-1">Facebook URL</label>
+                <label className="block text-[11px] text-[#AFAFAE] mb-1">Facebook URL</label>
                 <input
                   type="text"
                   value={formData.social_facebook}
                   onChange={(e) => handleChange("social_facebook", e.target.value)}
-                  className="w-full rounded-xl bg-[#070709] border border-white/15 px-3 py-2 text-xs text-[#F4F4F5] outline-none"
+                  className="w-full rounded-xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-3 py-2 text-xs text-[#D9D9D9] outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] text-[#A1A1AA] mb-1">TikTok URL</label>
+                <label className="block text-[11px] text-[#AFAFAE] mb-1">TikTok URL</label>
                 <input
                   type="text"
                   value={formData.social_tiktok}
                   onChange={(e) => handleChange("social_tiktok", e.target.value)}
-                  className="w-full rounded-xl bg-[#070709] border border-white/15 px-3 py-2 text-xs text-[#F4F4F5] outline-none"
+                  className="w-full rounded-xl bg-[#0F0F0F] border border-[#6B6A69]/25 px-3 py-2 text-xs text-[#D9D9D9] outline-none"
                 />
               </div>
             </div>

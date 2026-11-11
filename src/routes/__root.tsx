@@ -11,22 +11,21 @@ import { Toaster } from "sonner";
 
 import appCss from "../styles.css?url";
 import faviconUrl from "../assets/favicon.svg?url";
-import { ThemeProvider } from "../components/common/ThemeProvider";
 import { Preloader } from "../components/common/Preloader";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#070709] px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#0F0F0F] px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-[#F4F4F5]">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-[#F4F4F5]">Page not found</h2>
-        <p className="mt-2 text-sm text-[#A1A1AA]">
+        <h1 className="text-7xl font-bold text-[#D9D9D9]">404</h1>
+        <h2 className="mt-4 text-xl font-semibold text-[#D9D9D9]">Page not found</h2>
+        <p className="mt-2 text-sm text-[#AFAFAE]">
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-full bg-[var(--sage)] px-6 py-2.5 text-xs tracking-[0.2em] uppercase text-[#070709] font-medium transition-all hover:brightness-110"
+            className="inline-flex items-center justify-center rounded-full bg-[#D9D9D9] px-6 py-2.5 text-xs tracking-[0.2em] uppercase text-[#0F0F0F] font-medium transition-all hover:brightness-110"
           >
             Go home
           </Link>
@@ -36,17 +35,17 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
   console.error(error);
   const router = useRouter();
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#070709] px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#0F0F0F] px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-[#F4F4F5]">
+        <h1 className="text-xl font-semibold tracking-tight text-[#D9D9D9]">
           This page didn't load
         </h1>
-        <p className="mt-2 text-sm text-[#A1A1AA]">
+        <p className="mt-2 text-sm text-[#AFAFAE]">
           Something went wrong on our end. You can try refreshing or head back home.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -55,13 +54,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-full bg-[var(--sage)] px-6 py-2.5 text-xs tracking-[0.2em] uppercase text-[#070709] font-medium transition-all hover:brightness-110"
+            className="inline-flex items-center justify-center rounded-full bg-[#D9D9D9] px-6 py-2.5 text-xs tracking-[0.2em] uppercase text-[#0F0F0F] font-medium transition-all hover:brightness-110"
           >
             Try again
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-full border border-white/15 bg-[#111115] px-6 py-2.5 text-xs tracking-[0.2em] uppercase text-[#F4F4F5] transition-all hover:border-white/30"
+            className="inline-flex items-center justify-center rounded-full border border-[#6B6A69]/25 bg-[#3F3F3D] px-6 py-2.5 text-xs tracking-[0.2em] uppercase text-[#D9D9D9] transition-all hover:border-[#6B6A69]"
           >
             Go home
           </a>
@@ -116,14 +115,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en">
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('sunny-theme')||'dark';var l=t==='light'||(t==='system'&&matchMedia('(prefers-color-scheme: light)').matches);document.documentElement.className=l?'light':'dark';document.documentElement.style.colorScheme=l?'light':'dark'}catch(e){}})()` }} />
         <HeadContent />
       </head>
-      <body suppressHydrationWarning className="bg-[#070709] text-[#A1A1AA] min-h-screen antialiased">
+      <body className="bg-[#0F0F0F] text-[#AFAFAE] min-h-screen antialiased">
         {children}
-        <Toaster richColors position="top-right" theme="system" />
+        <Toaster position="top-right" theme="dark" />
         <Scripts />
       </body>
     </html>
@@ -135,10 +133,8 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <Preloader />
-        <Outlet />
-      </ThemeProvider>
+      <Preloader />
+      <Outlet />
     </QueryClientProvider>
   );
 }

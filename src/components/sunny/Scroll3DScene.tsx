@@ -119,14 +119,14 @@ function SectionTransitionsCluster() {
       {/* Divider 1: Hero → About transition */}
       <SectionDividerMesh
         position={[2.8, 1.4, -1]}
-        color="#b7d7c1"
+        color="#D9D9D9"
         speed={0.35}
         type="icosa"
         scale={0.95}
       />
       <SectionDividerMesh
         position={[3.1, 1.2, -1.2]}
-        color="#d7eee0"
+        color="#6B6A69"
         speed={0.25}
         type="ribbon"
         scale={0.85}
@@ -135,14 +135,14 @@ function SectionTransitionsCluster() {
       {/* Divider 2: About → Services transition */}
       <SectionDividerMesh
         position={[-3.0, 0.1, -1.1]}
-        color="#F4F4F5"
+        color="#D9D9D9"
         speed={0.3}
         type="torus"
         scale={0.9}
       />
       <SectionDividerMesh
         position={[-2.7, -0.2, -0.9]}
-        color="#b7d7c1"
+        color="#D9D9D9"
         speed={0.4}
         type="octa"
         scale={0.75}
@@ -151,14 +151,14 @@ function SectionTransitionsCluster() {
       {/* Divider 3: Services → Portfolio transition */}
       <SectionDividerMesh
         position={[2.7, -1.5, -0.8]}
-        color="#d9b7a4"
+        color="#6B6A69"
         speed={0.4}
         type="octa"
         scale={0.85}
       />
       <SectionDividerMesh
         position={[2.5, -1.8, -1.3]}
-        color="#b7d7c1"
+        color="#D9D9D9"
         speed={0.3}
         type="ribbon"
         scale={0.95}
@@ -170,7 +170,7 @@ function SectionTransitionsCluster() {
 export function Scroll3DScene() {
   return (
     <div
-      className="fixed inset-0 pointer-events-none z-[2] h-screen w-full overflow-hidden"
+      className="fixed inset-0 pointer-events-none z-10 h-screen min-h-[480px] w-full overflow-hidden"
       aria-hidden="true"
     >
       <Canvas
@@ -184,9 +184,9 @@ export function Scroll3DScene() {
           alpha: true,
         }}
       >
-        <ambientLight intensity={1.1} />
-        <directionalLight position={[4, 5, 3]} intensity={1.8} color="#b7d7c1" />
-        <directionalLight position={[-4, -3, 2]} intensity={1.2} color="#F4F4F5" />
+        <ambientLight intensity={1.5} color="#AFAFAE" />
+        <directionalLight position={[4, 5, 3]} intensity={1.8} color="#D9D9D9" />
+        <directionalLight position={[-4, -3, 2]} intensity={1.6} color="#6B6A69" />
         <SectionTransitionsCluster />
       </Canvas>
     </div>

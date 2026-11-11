@@ -1,4 +1,0 @@
-const tsrStartManifest = () => ({ routes: { __root__: { filePath: "C:/Users/DAIMA COMPUTERS/Desktop/New folder/Sunny Concepts final/Website/Sunny Concepts/src/routes/__root.tsx", children: ["/", "/admin"], preloads: ["/assets/index-jlHncmRj.js"], scripts: [{ attrs: { type: "module", async: true, src: "/assets/index-jlHncmRj.js" } }] }, "/": { filePath: "C:/Users/DAIMA COMPUTERS/Desktop/New folder/Sunny Concepts final/Website/Sunny Concepts/src/routes/index.tsx", children: void 0, preloads: ["/assets/index-CUUDn9m0.js", "/assets/cloudinary-BTIqyKLU.js"] }, "/admin": { filePath: "C:/Users/DAIMA COMPUTERS/Desktop/New folder/Sunny Concepts final/Website/Sunny Concepts/src/routes/admin.tsx", children: void 0, preloads: ["/assets/admin-Cj4v5VF8.js", "/assets/cloudinary-BTIqyKLU.js"] } } });
-export {
-  tsrStartManifest
-};

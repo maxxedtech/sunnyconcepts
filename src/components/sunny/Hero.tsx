@@ -21,14 +21,14 @@ export function Hero() {
         <div
           className="absolute top-1/4 -left-32 h-[50vh] w-[50vh] rounded-full blur-3xl float-slow"
           style={{
-            background: "radial-gradient(circle, rgba(183, 215, 193, 0.22) 0%, transparent 65%)",
+            background: "radial-gradient(circle, rgba(217, 217, 217, 0.22) 0%, transparent 65%)",
           }}
         />
         <div
           className="absolute bottom-0 -right-40 h-[60vh] w-[60vh] rounded-full blur-3xl float-slow"
           style={{
             animationDelay: "-6s",
-            background: "radial-gradient(circle, rgba(92, 33, 47, 0.3) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(107, 106, 105, 0.3) 0%, transparent 70%)",
           }}
         />
         <div
@@ -51,7 +51,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05, duration: 0.6 }}
-          className="inline-block text-[11px] tracking-[0.45em] uppercase text-[#A1A1AA] mb-8 font-medium"
+          className="inline-block text-[11px] tracking-[0.45em] uppercase text-[#AFAFAE] mb-8 font-medium"
         >
           — A Premium Digital Agency
         </motion.span>
@@ -60,7 +60,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-5xl sm:text-7xl md:text-[7.5rem] leading-[0.95] text-balance font-light text-[#F4F4F5] tracking-tight"
+          className="text-5xl sm:text-7xl md:text-[7.5rem] leading-[0.95] text-balance font-light text-[#D9D9D9] tracking-tight"
         >
           {settings.hero_headline_line1}
           <br />
@@ -75,7 +75,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.25, duration: 0.7 }}
-          className="mt-8 text-sm md:text-base tracking-[0.2em] uppercase text-[#A1A1AA] max-w-xl mx-auto"
+          className="mt-8 text-sm md:text-base tracking-[0.2em] uppercase text-[#AFAFAE] max-w-xl mx-auto"
         >
           {settings.hero_subtitle}
         </motion.p>
@@ -88,13 +88,13 @@ export function Hero() {
         >
           <a
             href={settings.hero_cta_portfolio_href || "#portfolio"}
-            className="glass glass-interactive rounded-full px-9 py-3.5 text-xs tracking-[0.28em] uppercase text-[#F4F4F5] hover:border-white/30 transition-all active:scale-[0.98]"
+            className="glass glass-interactive rounded-full px-9 py-3.5 text-xs tracking-[0.28em] uppercase text-[#D9D9D9] hover:border-white/30 transition-all active:scale-[0.98]"
           >
             {settings.hero_cta_portfolio_text}
           </a>
           <a
             href={settings.hero_cta_contact_href || "#contact"}
-            className="rounded-full px-9 py-3.5 text-xs tracking-[0.28em] uppercase text-[#070709] font-medium transition-all hover:brightness-110 hover:shadow-[0_0_25px_rgba(183,215,193,0.45)] active:scale-[0.98]"
+            className="rounded-full px-9 py-3.5 text-xs tracking-[0.28em] uppercase text-[#0F0F0F] font-medium transition-all hover:brightness-110 hover:shadow-[0_0_25px_rgba(183,215,193,0.45)] active:scale-[0.98]"
             style={{ background: "var(--sage)" }}
           >
             {settings.hero_cta_contact_text}
@@ -109,7 +109,7 @@ export function Hero() {
         transition={{ delay: 0.5, duration: 0.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 pointer-events-none"
       >
-        <span className="text-[10px] tracking-[0.4em] uppercase text-[#A1A1AA]">Scroll</span>
+        <span className="text-[10px] tracking-[0.4em] uppercase text-[#AFAFAE]">Scroll</span>
         <div className="h-10 w-px bg-gradient-to-b from-[var(--sage)] to-transparent">
           <motion.div
             animate={{ y: [0, 36, 0] }}

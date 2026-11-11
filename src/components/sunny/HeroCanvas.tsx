@@ -47,13 +47,13 @@ function Scene() {
   return (
     <group ref={group}>
       <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.4}>
-        <Ribbon offset={0} color="#b7d7c1" scale={1.1} />
-        <Ribbon offset={2} color="#d9b7a4" scale={0.9} />
-        <Ribbon offset={4} color="#b8b7d9" scale={0.76} />
+        <Ribbon offset={0} color="#D9D9D9" scale={1.1} />
+        <Ribbon offset={2} color="#6B6A69" scale={0.9} />
+        <Ribbon offset={4} color="#AFAFAE" scale={0.76} />
         <mesh position={[0, 0, -0.5]}>
           <icosahedronGeometry args={[0.7, 2]} />
           <meshPhysicalMaterial
-            color="#ededed"
+            color="#D9D9D9"
             transparent
             opacity={0.12}
             wireframe
@@ -85,7 +85,7 @@ export function HeroCanvas() {
   }, []);
 
   return (
-    <div ref={containerRef} className="hero-canvas relative min-h-[450px] w-full" aria-hidden="true">
+    <div ref={containerRef} className="hero-canvas relative z-10 min-h-[480px] h-full w-full" aria-hidden="true">
       {isVisible && (
         <Canvas
           camera={{ position: [0, 0, 5], fov: 42 }}
@@ -98,9 +98,10 @@ export function HeroCanvas() {
             alpha: true,
           }}
         >
-          <ambientLight intensity={1.2} />
-          <pointLight position={[2, 3, 4]} intensity={8} color="#d7eee0" />
-          <pointLight position={[-3, -2, 2]} intensity={5} color="#d9b7a4" />
+          <ambientLight intensity={1.6} color="#AFAFAE" />
+          <directionalLight position={[2, 3, 4]} intensity={3.5} color="#D9D9D9" />
+          <pointLight position={[2, 3, 4]} intensity={8} color="#6B6A69" />
+          <pointLight position={[-3, -2, 2]} intensity={3} color="#6B6A69" />
           <Scene />
         </Canvas>
       )}

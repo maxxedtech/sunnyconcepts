@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ThemeToggle } from "../common/ThemeToggle";
 
 const links = [
   { href: "#about", label: "About" },
@@ -30,13 +29,13 @@ export function Nav() {
         <div
           className={`glass rounded-full flex items-center justify-between px-6 py-3.5 transition-all duration-300 ${
             scrolled
-              ? "bg-[#111115]/95 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.85)] border-white/20"
-              : "bg-[#111115]/80 border-white/12"
+              ? "bg-[#3F3F3D]/95 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.85)] border-white/20"
+              : "bg-[#3F3F3D]/80 border-[#6B6A69]/20"
           }`}
         >
           <a href="#top" className="flex items-center gap-2.5 group">
             <span className="h-2 w-2 rounded-full bg-[var(--sage)] shadow-[0_0_10px_var(--sage)]" />
-            <span className="text-sm tracking-[0.25em] uppercase font-light text-[#F4F4F5]">
+            <span className="text-sm tracking-[0.25em] uppercase font-light text-[#D9D9D9]">
               Sunny Concepts
             </span>
           </a>
@@ -46,7 +45,7 @@ export function Nav() {
               <a
                 key={`nav-link-${l.href}`}
                 href={l.href}
-                className="text-xs tracking-[0.22em] uppercase text-[#A1A1AA] hover:text-[#F4F4F5] transition-colors font-medium"
+                className="text-xs tracking-[0.22em] uppercase text-[#AFAFAE] hover:text-[#D9D9D9] transition-colors font-medium"
               >
                 {l.label}
               </a>
@@ -54,17 +53,16 @@ export function Nav() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <ThemeToggle />
             <a
               href="#contact"
-              className="hidden md:inline-flex text-xs tracking-[0.22em] uppercase px-5 py-2 rounded-full border border-[var(--sage)]/40 text-[#F4F4F5] hover:bg-[var(--sage)]/15 transition-all font-medium"
+              className="hidden md:inline-flex text-xs tracking-[0.22em] uppercase px-5 py-2 rounded-full border border-[var(--sage)]/40 text-[#D9D9D9] hover:bg-[var(--sage)]/15 transition-all font-medium"
             >
               Start a Project
             </a>
             <button
               onClick={() => setOpen(true)}
               aria-label="Open navigation menu"
-              className="md:hidden text-xs tracking-[0.22em] uppercase text-[#F4F4F5] px-3 py-1.5 rounded-lg border border-white/10"
+              className="md:hidden text-xs tracking-[0.22em] uppercase text-[#D9D9D9] px-3 py-1.5 rounded-lg border border-[#6B6A69]/20"
             >
               Menu
             </button>
@@ -79,14 +77,14 @@ export function Nav() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] md:hidden glass-strong flex flex-col items-center justify-center gap-8 bg-[#070709]/95 backdrop-blur-2xl"
+            className="fixed inset-0 z-[60] md:hidden glass-strong flex flex-col items-center justify-center gap-8 bg-[#0F0F0F]/95 backdrop-blur-2xl"
           >
             {links.map((l) => (
               <a
                 key={`mobile-link-${l.href}`}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="text-2xl tracking-[0.25em] uppercase font-light text-[#F4F4F5] hover:text-[var(--sage)] transition-colors"
+                className="text-2xl tracking-[0.25em] uppercase font-light text-[#D9D9D9] hover:text-[var(--sage)] transition-colors"
               >
                 {l.label}
               </a>
@@ -94,13 +92,13 @@ export function Nav() {
             <a
               href="/admin"
               onClick={() => setOpen(false)}
-              className="mt-6 text-xs tracking-[0.3em] uppercase text-[#A1A1AA] hover:text-[#F4F4F5]"
+              className="mt-6 text-xs tracking-[0.3em] uppercase text-[#AFAFAE] hover:text-[#D9D9D9]"
             >
               Admin Portal
             </a>
             <button
               onClick={() => setOpen(false)}
-              className="absolute top-6 right-6 text-xs tracking-[0.3em] uppercase text-[#A1A1AA] px-4 py-2 rounded-full border border-white/10"
+              className="absolute top-6 right-6 text-xs tracking-[0.3em] uppercase text-[#AFAFAE] px-4 py-2 rounded-full border border-[#6B6A69]/20"
             >
               Close
             </button>
