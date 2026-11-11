@@ -7,7 +7,7 @@ export function Contact() {
   const phoneLink = `tel:${(settings.contact_phone || "+2348024493791").replace(/\s+/g, "")}`;
   const mailLink = `mailto:${settings.contact_email || "sunnyconceptsinfo@gmail.com"}`;
   const whatsappUrl = `https://wa.me/${(settings.contact_phone || "2348024493791").replace(/[^0-9]/g, "")}?text=${encodeURIComponent(
-    settings.contact_whatsapp_text || "Hi Sunny Concepts, I'd love to discuss a project."
+    settings.contact_whatsapp_text || "Hi Sunny Concepts, I'd love to discuss a project.",
   )}`;
 
   const socials = [
@@ -28,8 +28,8 @@ export function Contact() {
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           className="glass rounded-[2.5rem] p-10 md:p-20 text-center relative overflow-hidden gpu-accelerated"
           style={{
-            background: "rgba(63, 63, 61, 0.92)",
-            borderColor: "rgba(255, 255, 255, 0.14)",
+            background: "color-mix(in srgb, var(--card) 92%, transparent)",
+            borderColor: "var(--border)",
           }}
         >
           <div

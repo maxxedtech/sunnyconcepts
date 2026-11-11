@@ -12,6 +12,7 @@ import { Toaster } from "sonner";
 import appCss from "../styles.css?url";
 import faviconUrl from "../assets/favicon.svg?url";
 import { Preloader } from "../components/common/Preloader";
+import { ThemeProvider } from "../components/common/ThemeProvider";
 
 function NotFoundComponent() {
   return (
@@ -74,7 +75,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1.0, viewport-fit=cover" },
       { title: "Sunny Concepts — Leading the World Through Digital Services" },
       {
         name: "description",
@@ -115,13 +116,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try { var t = localStorage.getItem('sunny-concepts-theme'); document.documentElement.classList.add(t === 'light' ? 'light' : 'dark'); } catch (_) { document.documentElement.classList.add('dark'); }`,
+          }}
+        />
         <HeadContent />
       </head>
-      <body className="bg-[#0F0F0F] text-[#AFAFAE] min-h-screen antialiased">
+      <body className="bg-[var(--background)] text-[var(--text-body)] min-h-screen antialiased">
         {children}
-        <Toaster position="top-right" theme="dark" />
+        <Toaster position="top-right" theme="system" />
         <Scripts />
       </body>
     </html>
@@ -133,8 +139,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Preloader />
-      <Outlet />
+      <ThemeProvider>
+        <Preloader />
+        <Outlet />
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

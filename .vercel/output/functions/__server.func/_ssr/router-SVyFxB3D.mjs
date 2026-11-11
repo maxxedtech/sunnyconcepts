@@ -1,14 +1,14 @@
-import { o as __toESM, r as __exportAll } from "../_runtime.mjs";
+import { o as __toESM } from "../_runtime.mjs";
+import { r as __exportAll } from "./server-CR4noN-L.mjs";
 import { c as require_react, s as require_jsx_runtime } from "../_libs/@react-three/drei+[...].mjs";
 import { _ as createRootRouteWithContext, d as HeadContent, g as createFileRoute, h as lazyRouteComponent, m as Outlet, p as createRouter, u as Scripts, v as Link, y as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { t as QueryClientProvider } from "../_libs/tanstack__react-query.mjs";
 import { t as Toaster } from "../_libs/sonner.mjs";
-// node_modules/.nitro/vite/services/ssr/assets/router-Cy-8oOE6.js
-var router_Cy_8oOE6_exports = /* @__PURE__ */ __exportAll({ getRouter: () => getRouter });
+// node_modules/.nitro/vite/services/ssr/assets/router-SVyFxB3D.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-mJnX7QbD.css";
+var styles_default = "/assets/styles-wuL5tC5Q.css";
 var favicon_default = "data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20512%20512'%20role='img'%20aria-label='Sunny%20Concepts%20monogram'%3e%3cdefs%3e%3clinearGradient%20id='sc-sage-grad'%20x1='0%25'%20y1='0%25'%20x2='100%25'%20y2='100%25'%3e%3cstop%20offset='0%25'%20stop-color='%23D9D9D9'%20/%3e%3cstop%20offset='100%25'%20stop-color='%236B6A69'%20/%3e%3c/linearGradient%3e%3c/defs%3e%3crect%20width='512'%20height='512'%20rx='112'%20fill='%230F0F0F'/%3e%3crect%20x='12'%20y='12'%20width='488'%20height='488'%20rx='100'%20fill='none'%20stroke='rgba(255,255,255,0.12)'%20stroke-width='4'/%3e%3cg%20fill='url(%23sc-sage-grad)'%3e%3cpath%20d='M254%20112%20325%20153%20150%20255%20150%20169Z'/%3e%3cpath%20d='M337%20160%20391%20191%20391%20274%20356%20274%20356%20225%20292%20188Z'/%3e%3cpath%20d='M258%20185%20326%20225%20326%20310%20255%20352%20208%20325%20279%20283%20279%20244%20151%20318%20151%20286Z'/%3e%3cpath%20d='M150%20329%20326%20227%20326%20310%20179%20395%20150%20378Z'/%3e%3cpath%20d='M151%20382%20208%20415%20254%20388%20326%20430%20254%20472%20151%20413Z'/%3e%3cpath%20d='M356%20304%20391%20304%20391%20386%20326%20424%20291%20404%20356%20366Z'/%3e%3c/g%3e%3c/svg%3e";
 function Preloader() {
 	const [progress, setProgress] = (0, import_react.useState)(0);
@@ -57,6 +57,40 @@ function Preloader() {
 			]
 		})
 	});
+}
+var STORAGE_KEY = "sunny-concepts-theme";
+var ThemeContext = (0, import_react.createContext)(null);
+function applyTheme(theme) {
+	document.documentElement.classList.toggle("dark", theme === "dark");
+	document.documentElement.classList.toggle("light", theme === "light");
+	document.documentElement.style.colorScheme = theme;
+}
+function ThemeProvider({ children }) {
+	const [theme, setThemeState] = (0, import_react.useState)("dark");
+	(0, import_react.useEffect)(() => {
+		const nextTheme = window.localStorage.getItem(STORAGE_KEY) === "light" ? "light" : "dark";
+		setThemeState(nextTheme);
+		applyTheme(nextTheme);
+	}, []);
+	const setTheme = (nextTheme) => {
+		setThemeState(nextTheme);
+		window.localStorage.setItem(STORAGE_KEY, nextTheme);
+		applyTheme(nextTheme);
+	};
+	const value = (0, import_react.useMemo)(() => ({
+		theme,
+		setTheme,
+		toggleTheme: () => setTheme(theme === "dark" ? "light" : "dark")
+	}), [theme]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThemeContext.Provider, {
+		value,
+		children
+	});
+}
+function useTheme() {
+	const context = (0, import_react.useContext)(ThemeContext);
+	if (!context) throw new Error("useTheme must be used within ThemeProvider");
+	return context;
 }
 function NotFoundComponent() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -129,7 +163,7 @@ var Route$2 = createRootRouteWithContext()({
 			{ charSet: "utf-8" },
 			{
 				name: "viewport",
-				content: "width=device-width, initial-scale=1"
+				content: "width=device-width, initial-scale=1.0, viewport-fit=cover"
 			},
 			{ title: "Sunny Concepts — Leading the World Through Digital Services" },
 			{
@@ -202,13 +236,14 @@ var Route$2 = createRootRouteWithContext()({
 function RootShell({ children }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("html", {
 		lang: "en",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("head", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(HeadContent, {}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("body", {
-			className: "bg-[#0F0F0F] text-[#AFAFAE] min-h-screen antialiased",
+		suppressHydrationWarning: true,
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("head", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("script", { dangerouslySetInnerHTML: { __html: `try { var t = localStorage.getItem('sunny-concepts-theme'); document.documentElement.classList.add(t === 'light' ? 'light' : 'dark'); } catch (_) { document.documentElement.classList.add('dark'); }` } }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(HeadContent, {})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("body", {
+			className: "bg-[var(--background)] text-[var(--text-body)] min-h-screen antialiased",
 			children: [
 				children,
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Toaster, {
 					position: "top-right",
-					theme: "dark"
+					theme: "system"
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Scripts, {})
 			]
@@ -217,14 +252,14 @@ function RootShell({ children }) {
 }
 function RootComponent() {
 	const { queryClient } = Route$2.useRouteContext();
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(QueryClientProvider, {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(QueryClientProvider, {
 		client: queryClient,
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Preloader, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {})]
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(ThemeProvider, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Preloader, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {})] })
 	});
 }
-var $$splitComponentImporter$1 = () => import("./routes-BfvCs-E1.mjs");
+var $$splitComponentImporter$1 = () => import("./routes-DI2IEPLF.mjs");
 var Route$1 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$1, "component") });
-var $$splitComponentImporter = () => import("./admin-Cv33rh0r.mjs");
+var $$splitComponentImporter = () => import("./admin-Df1B46Mi.mjs");
 var Route = createFileRoute("/admin")({ component: lazyRouteComponent($$splitComponentImporter, "component") });
 var rootRouteChildren = {
 	IndexRoute: Route$1.update({
@@ -239,6 +274,7 @@ var rootRouteChildren = {
 	})
 };
 var routeTree = Route$2._addFileChildren(rootRouteChildren)._addFileTypes();
+var router_exports = /* @__PURE__ */ __exportAll({ getRouter: () => getRouter });
 var getRouter = () => {
 	const queryClient = new QueryClient();
 	return createRouter({
@@ -248,4 +284,4 @@ var getRouter = () => {
 		defaultPreloadStaleTime: 0
 	});
 };
-export { getRouter, router_Cy_8oOE6_exports as t };
+export { useTheme as n, router_exports as t };

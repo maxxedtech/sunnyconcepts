@@ -7,7 +7,7 @@ export function Footer() {
   const mailLink = `mailto:${settings.contact_email || "sunnyconceptsinfo@gmail.com"}`;
 
   return (
-    <footer className="relative px-6 pb-12 pt-20 border-t border-[#6B6A69]/20 bg-[#0F0F0F]">
+    <footer className="relative px-6 pb-12 pt-20 border-t border-[#6B6A69]/20 bg-[var(--background)]">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-3 gap-10">
           <div>

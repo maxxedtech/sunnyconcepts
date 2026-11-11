@@ -1,7 +1,7 @@
-import { n as createMiddleware } from "./server-C3Szv620.mjs";
+import { n as createMiddleware } from "./server-CR4noN-L.mjs";
 import { t as renderErrorPage } from "./ssr.mjs";
 import { Ft as isPromise } from "../_libs/@tanstack/react-router+[...].mjs";
-// node_modules/.nitro/vite/services/ssr/assets/start-qbcuf6JQ.js
+// node_modules/.nitro/vite/services/ssr/assets/start-BZxTMZ5L.js
 function dedupeSerializationAdapters(deduped, serializationAdapters) {
 	for (let i = 0, len = serializationAdapters.length; i < len; i++) {
 		const current = serializationAdapters[i];

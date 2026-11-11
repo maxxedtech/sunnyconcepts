@@ -1,9 +1,11 @@
 import { o as __toESM } from "../_runtime.mjs";
-import { f as usePortfolioCategories, o as optimizeCloudinaryUrl, p as useSiteSettings, u as supabase } from "./cloudinary-B7lKi_GN.mjs";
+import { n as useTheme } from "./router-SVyFxB3D.mjs";
+import { d as responsiveCloudinaryUrl, f as supabase, h as useSiteSettings, m as usePortfolioCategories, o as optimizeCloudinaryUrl, u as responsiveCloudinarySrcSet } from "./cloudinary-DKfsfRuI.mjs";
 import { c as require_react, s as require_jsx_runtime } from "../_libs/@react-three/drei+[...].mjs";
+import { i as Sun, u as Moon } from "../_libs/lucide-react.mjs";
 import { i as AnimatePresence, n as useScroll, r as motion, t as useTransform } from "../_libs/framer-motion.mjs";
 import { t as Lenis } from "../_libs/lenis.mjs";
-// node_modules/.nitro/vite/services/ssr/assets/routes-BfvCs-E1.js
+// node_modules/.nitro/vite/services/ssr/assets/routes-DI2IEPLF.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function Intro() {
@@ -79,6 +81,7 @@ var links = [
 function Nav() {
 	const [scrolled, setScrolled] = (0, import_react.useState)(false);
 	const [open, setOpen] = (0, import_react.useState)(false);
+	const { theme, toggleTheme, setTheme } = useTheme();
 	(0, import_react.useEffect)(() => {
 		const onScroll = () => setScrolled(window.scrollY > 30);
 		window.addEventListener("scroll", onScroll, { passive: true });
@@ -125,16 +128,38 @@ function Nav() {
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "flex items-center gap-3",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-						href: "#contact",
-						className: "hidden md:inline-flex text-xs tracking-[0.22em] uppercase px-5 py-2 rounded-full border border-[var(--sage)]/40 text-[#D9D9D9] hover:bg-[var(--sage)]/15 transition-all font-medium",
-						children: "Start a Project"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-						onClick: () => setOpen(true),
-						"aria-label": "Open navigation menu",
-						className: "md:hidden text-xs tracking-[0.22em] uppercase text-[#D9D9D9] px-3 py-1.5 rounded-lg border border-[#6B6A69]/20",
-						children: "Menu"
-					})]
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							onClick: toggleTheme,
+							"aria-label": `Switch to ${theme === "dark" ? "light" : "dark"} mode`,
+							className: "hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-body)] transition-colors hover:text-[var(--text-heading)]",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.span, {
+								initial: {
+									rotate: -45,
+									scale: .7,
+									opacity: 0
+								},
+								animate: {
+									rotate: 0,
+									scale: 1,
+									opacity: 1
+								},
+								transition: { duration: .25 },
+								children: theme === "dark" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sun, { className: "h-4 w-4" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Moon, { className: "h-4 w-4" })
+							}, theme)
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+							href: "#contact",
+							className: "hidden md:inline-flex text-xs tracking-[0.22em] uppercase px-5 py-2 rounded-full border border-[var(--sage)]/40 text-[#D9D9D9] hover:bg-[var(--sage)]/15 transition-all font-medium",
+							children: "Start a Project"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+							onClick: () => setOpen(true),
+							"aria-label": "Open navigation menu",
+							className: "md:hidden text-xs tracking-[0.22em] uppercase text-[#D9D9D9] px-3 py-1.5 rounded-lg border border-[#6B6A69]/20",
+							children: "Menu"
+						})
+					]
 				})
 			]
 		})
@@ -150,6 +175,21 @@ function Nav() {
 				className: "text-2xl tracking-[0.25em] uppercase font-light text-[#D9D9D9] hover:text-[var(--sage)] transition-colors",
 				children: l.label
 			}, `mobile-link-${l.href}`)),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "mt-2 flex min-h-11 items-center gap-1 rounded-full border border-[var(--border)] p-1",
+				"aria-label": "Theme preference",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+					onClick: () => setTheme("dark"),
+					"aria-pressed": theme === "dark",
+					className: `min-h-10 rounded-full px-4 text-xs tracking-[0.2em] uppercase transition-colors ${theme === "dark" ? "bg-[var(--text-heading)] text-[var(--background)]" : "text-[var(--text-body)]"}`,
+					children: "Dark"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+					onClick: () => setTheme("light"),
+					"aria-pressed": theme === "light",
+					className: `min-h-10 rounded-full px-4 text-xs tracking-[0.2em] uppercase transition-colors ${theme === "light" ? "bg-[var(--text-heading)] text-[var(--background)]" : "text-[var(--text-body)]"}`,
+					children: "Light"
+				})]
+			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
 				href: "/admin",
 				onClick: () => setOpen(false),
@@ -164,28 +204,18 @@ function Nav() {
 		]
 	}) })] });
 }
-var HeroCanvas = (0, import_react.lazy)(() => import("./HeroCanvas-C0hzzA-6.mjs"));
+var HeroCanvas = (0, import_react.lazy)(() => import("./HeroCanvas-Duoori-9.mjs"));
 function LazyHeroCanvas() {
 	const [mounted, setMounted] = (0, import_react.useState)(false);
 	const [shouldRender, setShouldRender] = (0, import_react.useState)(false);
 	(0, import_react.useEffect)(() => {
 		setMounted(true);
-		const isMobile = window.innerWidth < 768;
 		const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-		const isLowPower = typeof navigator !== "undefined" && navigator.hardwareConcurrency != null && navigator.hardwareConcurrency <= 4;
-		if (!isMobile && !prefersReducedMotion && !isLowPower) setShouldRender(true);
+		setShouldRender(!prefersReducedMotion);
 	}, []);
-	const skeletonFallback = /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-		className: "hero-canvas pointer-events-none",
-		"aria-hidden": "true",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "absolute inset-0 rounded-full blur-3xl opacity-20 pointer-events-none transition-opacity duration-1000",
-			style: { background: "radial-gradient(circle at center, rgba(217, 217, 217, 0.25) 0%, transparent 70%)" }
-		})
-	});
-	if (!mounted || !shouldRender) return skeletonFallback;
+	if (!mounted || !shouldRender) return null;
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react.Suspense, {
-		fallback: skeletonFallback,
+		fallback: null,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(HeroCanvas, {})
 	});
 }
@@ -381,7 +411,8 @@ function About() {
 						src: portraitUrl,
 						alt: `${settings.about_founder_name || "Sunday Ibrahim"}, ${settings.about_founder_title || "Founder & Creative Director"} of Sunny Concepts`,
 						className: "h-full w-full object-cover transition-transform duration-700 hover:scale-[1.03]",
-						loading: "lazy"
+						loading: "lazy",
+						decoding: "async"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-[#0F0F0F]/80 via-transparent to-transparent pointer-events-none" })] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "h-full w-full flex flex-col items-center justify-center p-8 bg-[#3F3F3D] animate-pulse relative overflow-hidden",
 						children: [
@@ -602,6 +633,7 @@ function Services() {
 		})
 	});
 }
+var PortfolioMotionButton = (0, import_react.memo)(motion.button);
 function Portfolio() {
 	const [activeCategory, setActiveCategory] = (0, import_react.useState)("all");
 	const [lightbox, setLightbox] = (0, import_react.useState)(null);
@@ -646,7 +678,8 @@ function Portfolio() {
 	const displayItems = (0, import_react.useMemo)(() => {
 		return items.map((item) => ({
 			id: item.id,
-			src: optimizeCloudinaryUrl(item.image_url),
+			src: responsiveCloudinaryUrl(item.image_url, 1200),
+			srcSet: responsiveCloudinarySrcSet(item.image_url),
 			title: item.title,
 			category: item.category,
 			description: item.description
@@ -669,6 +702,7 @@ function Portfolio() {
 	const clientsList = (0, import_react.useMemo)(() => {
 		return (settings.client_marquee_list || "").split(",").map((c) => c.trim()).filter(Boolean);
 	}, [settings.client_marquee_list]);
+	const openLightbox = (0, import_react.useCallback)((item) => setLightbox(item), []);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
 		id: "portfolio",
 		className: "relative py-28 md:py-44 px-6 bg-[#0F0F0F]",
@@ -714,11 +748,12 @@ function Portfolio() {
 					})
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(AnimatePresence, {
-					mode: "wait",
+					mode: "sync",
+					initial: false,
 					children: loading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6",
+						className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8",
 						children: Array.from({ length: 6 }).map((_, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "aspect-[4/5] rounded-2xl bg-[#3F3F3D] border border-[#6B6A69]/20 p-4 flex flex-col justify-end animate-pulse overflow-hidden relative shadow-lg",
+							className: "aspect-[4/5] rounded-2xl bg-[#3F3F3D] border border-[#6B6A69]/20 p-4 flex flex-col justify-end overflow-hidden relative shadow-lg",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "relative z-10 space-y-2",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-3 w-16 bg-white/10 rounded-full" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-4 w-32 bg-white/15 rounded-md" })]
@@ -746,10 +781,10 @@ function Portfolio() {
 								1
 							]
 						},
-						className: "grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6",
+						className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8",
 						children: filteredItems.map((item, i) => {
 							const isHeroSpan = i === 0 && filteredItems.length > 2;
-							return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.button, {
+							return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(PortfolioMotionButton, {
 								initial: {
 									opacity: 0,
 									y: 15
@@ -762,16 +797,19 @@ function Portfolio() {
 									delay: Math.min(i * .05, .3),
 									duration: .6
 								},
-								onClick: () => setLightbox(item),
-								className: `group relative overflow-hidden rounded-2xl text-left border border-[#6B6A69]/20 hover:border-white/25 transition-all duration-500 bg-[#3F3F3D] ${isHeroSpan ? "md:col-span-2 md:row-span-2" : ""}`,
+								onClick: () => openLightbox(item),
+								className: `group relative overflow-hidden rounded-2xl text-left border border-[#6B6A69]/20 hover:border-white/25 transition-[border-color,box-shadow] duration-500 bg-[#3F3F3D] ${isHeroSpan ? "md:col-span-2 md:row-span-2" : ""}`,
 								children: [
 									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 										className: `${isHeroSpan ? "aspect-square" : "aspect-[4/5]"} overflow-hidden rounded-2xl bg-[#0F0F0F]`,
 										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 											src: item.src,
+											srcSet: item.srcSet,
+											sizes: "(max-width: 767px) 50vw, (max-width: 1279px) 33vw, 400px",
 											alt: item.title,
-											className: "h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]",
-											loading: "lazy"
+											className: "h-full w-full object-cover transform-gpu transition-transform duration-700 group-hover:scale-[1.04]",
+											loading: "lazy",
+											decoding: "async"
 										})
 									}),
 									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-[#0F0F0F]/95 via-[#0F0F0F]/30 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-95 pointer-events-none" }),
@@ -789,7 +827,7 @@ function Portfolio() {
 										})]
 									})
 								]
-							}, `portfolio-item-${item.id}-${i}`);
+							}, `portfolio-item-${item.id}`);
 						})
 					}, `grid-${activeCategory}`) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
 						initial: { opacity: 0 },
@@ -860,7 +898,9 @@ function Portfolio() {
 					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 						src: lightbox.src,
 						alt: lightbox.title,
-						className: "h-full w-full object-contain"
+						className: "h-full w-full object-contain",
+						loading: "eager",
+						decoding: "async"
 					})
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "mt-4 px-2 flex justify-between items-center",
@@ -940,8 +980,8 @@ function Contact() {
 				},
 				className: "glass rounded-[2.5rem] p-10 md:p-20 text-center relative overflow-hidden gpu-accelerated",
 				style: {
-					background: "rgba(63, 63, 61, 0.92)",
-					borderColor: "rgba(255, 255, 255, 0.14)"
+					background: "color-mix(in srgb, var(--card) 92%, transparent)",
+					borderColor: "var(--border)"
 				},
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "absolute -top-36 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full blur-3xl opacity-25 pointer-events-none",
@@ -1012,7 +1052,7 @@ function Footer() {
 	const phoneLink = `tel:${(settings.contact_phone || "+2348024493791").replace(/\s+/g, "")}`;
 	const mailLink = `mailto:${settings.contact_email || "sunnyconceptsinfo@gmail.com"}`;
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("footer", {
-		className: "relative px-6 pb-12 pt-20 border-t border-[#6B6A69]/20 bg-[#0F0F0F]",
+		className: "relative px-6 pb-12 pt-20 border-t border-[#6B6A69]/20 bg-[var(--background)]",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "max-w-7xl mx-auto",
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -1118,29 +1158,24 @@ function SmoothScroll() {
 	}, []);
 	return null;
 }
-var Scroll3DScene = (0, import_react.lazy)(() => import("./Scroll3DScene-DRO4AtOD.mjs"));
+var Scroll3DScene = (0, import_react.lazy)(() => import("./Scroll3DScene-ba8A6aFh.mjs"));
 function LazyScroll3D() {
 	const [mounted, setMounted] = (0, import_react.useState)(false);
 	const [enabled, setEnabled] = (0, import_react.useState)(false);
 	(0, import_react.useEffect)(() => {
 		setMounted(true);
-		const isMobile = window.innerWidth < 768;
 		const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-		const isLowPower = typeof navigator !== "undefined" && navigator.hardwareConcurrency != null && navigator.hardwareConcurrency <= 4;
-		if (!isMobile && !prefersReducedMotion && !isLowPower) setEnabled(true);
+		setEnabled(!prefersReducedMotion);
 	}, []);
 	if (!mounted || !enabled) return null;
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_react.Suspense, {
-		fallback: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "fixed inset-0 pointer-events-none z-[2]",
-			"aria-hidden": "true"
-		}),
+		fallback: null,
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Scroll3DScene, {})
 	});
 }
 function Index() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", {
-		className: "relative overflow-hidden bg-[#0F0F0F] min-h-screen",
+		className: "relative min-h-screen overflow-x-hidden overflow-y-visible bg-[var(--background)]",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SmoothScroll, {}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {

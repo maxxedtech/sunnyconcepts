@@ -1,10 +1,10 @@
 import { o as __toESM } from "../_runtime.mjs";
-import { a as openCloudinaryMultiUploadWidget, c as renameCategory, d as uploadToCloudinary, f as usePortfolioCategories, i as deleteCategory, l as reorderCategories, n as batchUploadToCloudinary, o as optimizeCloudinaryUrl, p as useSiteSettings, r as countItemsForCategory, s as persistSiteSettings, t as addCategory, u as supabase } from "./cloudinary-B7lKi_GN.mjs";
+import { a as openCloudinaryMultiUploadWidget, c as renameCategory, f as supabase, h as useSiteSettings, i as deleteCategory, l as reorderCategories, m as usePortfolioCategories, n as batchUploadToCloudinary, o as optimizeCloudinaryUrl, p as uploadToCloudinary, r as countItemsForCategory, s as persistSiteSettings, t as addCategory } from "./cloudinary-DKfsfRuI.mjs";
 import { c as require_react, s as require_jsx_runtime } from "../_libs/@react-three/drei+[...].mjs";
 import { v as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { n as toast } from "../_libs/sonner.mjs";
-import { _ as CircleAlert, a as Save, c as Pen, d as Image, f as FolderPlus, g as CircleCheck, h as ExternalLink, i as Sparkles, l as LogOut, m as EyeOff, n as Upload, o as RefreshCw, p as Eye, r as Trash2, s as Plus, t as X, u as Layers, v as Check, y as ArrowLeft } from "../_libs/lucide-react.mjs";
-// node_modules/.nitro/vite/services/ssr/assets/admin-Cv33rh0r.js
+import { _ as ExternalLink, a as Sparkles, b as Check, c as Plus, d as LogOut, f as Layers, g as EyeOff, h as Eye, l as Pen, m as FolderPlus, n as Upload, o as Save, p as Image, r as Trash2, s as RefreshCw, t as X, v as CircleCheck, x as ArrowLeft, y as CircleAlert } from "../_libs/lucide-react.mjs";
+// node_modules/.nitro/vite/services/ssr/assets/admin-Df1B46Mi.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var AUTH_KEY = "admin_authenticated";
@@ -268,7 +268,7 @@ function BatchMediaManagerTab() {
 	};
 	const launchCloudinaryWidget = async () => {
 		try {
-			toast.loading("Opening media picker...", { id: "cld-widget" });
+			toast.loading("Opening upload panel...", { id: "cld-widget" });
 			await openCloudinaryMultiUploadWidget({
 				folder: `sunny_concepts/${batchCategory.toLowerCase().replace(/\s+/g, "_")}`,
 				onBatchComplete: async (results) => {
@@ -295,7 +295,7 @@ function BatchMediaManagerTab() {
 			toast.dismiss("cld-widget");
 		} catch (e) {
 			toast.dismiss("cld-widget");
-			toast.error(e?.message || "Could not open the media picker.");
+			toast.error(e?.message || "Could not open the upload panel.");
 		}
 	};
 	const handleDeleteItem = async (item) => {
@@ -326,8 +326,8 @@ function BatchMediaManagerTab() {
 					type: "button",
 					onClick: launchCloudinaryWidget,
 					className: "shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl text-[11px] tracking-[0.18em] uppercase font-semibold bg-[var(--sage)]/15 border border-[var(--sage)]/30 text-[var(--sage)] hover:bg-[var(--sage)]/25 transition-all",
-					title: "Open media picker",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { className: "w-3.5 h-3.5" }), "Add via Media Picker"]
+					title: "Open upload panel",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { className: "w-3.5 h-3.5" }), "Upload Asset"]
 				})]
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
 				onSubmit: handleBatchUpload,
@@ -419,10 +419,14 @@ function BatchMediaManagerTab() {
 					})] }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", {
 						className: "block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium",
-						children: ["Title / Series Prefix ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-[#AFAFAE]/50 font-normal",
-							children: "(optional)"
-						})]
+						children: [
+							"Title / Series Prefix",
+							" ",
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "text-[#AFAFAE]/50 font-normal",
+								children: "(optional)"
+							})
+						]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
 						type: "text",
 						value: defaultTitlePrefix,
@@ -448,7 +452,7 @@ function BatchMediaManagerTab() {
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "flex justify-between text-xs text-[#D9D9D9]",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Uploading batch..." }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Uploading assets..." }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
 									uploadProgress.completed,
 									" / ",
 									uploadProgress.total
@@ -471,12 +475,7 @@ function BatchMediaManagerTab() {
 						type: "submit",
 						disabled: isUploading || selectedFiles.length === 0,
 						className: `w-full rounded-2xl py-3.5 text-xs tracking-[0.25em] uppercase font-semibold transition-all flex items-center justify-center gap-2 ${isUploading || selectedFiles.length === 0 ? "bg-white/10 text-white/40 cursor-not-allowed" : "bg-[var(--sage)] text-[#0F0F0F] hover:brightness-110 active:scale-[0.99] shadow-[0_0_20px_rgba(183,215,193,0.3)]"}`,
-						children: isUploading ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RefreshCw, { className: "w-4 h-4 animate-spin" }), "Adding assets to the portfolio..."] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Upload, { className: "w-4 h-4" }),
-							"Upload ",
-							selectedFiles.length > 0 ? `${selectedFiles.length} Assets` : "Batch",
-							" to Portfolio"
-						] })
+						children: isUploading ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RefreshCw, { className: "w-4 h-4 animate-spin" }), "Adding assets to the portfolio..."] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Upload, { className: "w-4 h-4" }), selectedFiles.length > 0 ? `Upload ${selectedFiles.length} Asset${selectedFiles.length > 1 ? "s" : ""}` : "Upload Asset"] })
 					})
 				]
 			})]
@@ -514,7 +513,7 @@ function BatchMediaManagerTab() {
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "text-xs text-[#AFAFAE] mt-1",
-						children: "Select files or use the media picker on the left to start publishing."
+						children: "Select files or use the upload panel on the left to start publishing."
 					})
 				]
 			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -529,7 +528,8 @@ function BatchMediaManagerTab() {
 								src: optimizeCloudinaryUrl(item.image_url),
 								alt: item.title,
 								className: "h-full w-full object-cover",
-								loading: "lazy"
+								loading: "lazy",
+								decoding: "async"
 							})
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "min-w-0",
@@ -937,7 +937,9 @@ function UniversalCmsTab() {
 							children: [formData.about_founder_portrait_url ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 								src: optimizeCloudinaryUrl(formData.about_founder_portrait_url),
 								alt: "Founder Portrait",
-								className: "h-full w-full object-cover"
+								className: "h-full w-full object-cover",
+								loading: "lazy",
+								decoding: "async"
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 								className: "absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4",
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {

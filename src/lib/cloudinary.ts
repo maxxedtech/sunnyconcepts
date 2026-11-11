@@ -28,6 +28,18 @@ export function optimizeCloudinaryUrl(url: string, transformations = "f_auto,q_a
   });
 }
 
+/** Builds a responsive, bounded Cloudinary delivery URL for rendered media. */
+export function responsiveCloudinaryUrl(url: string, width: number): string {
+  return optimizeCloudinaryUrl(url, `f_auto,q_auto:eco,w_${width},c_limit`);
+}
+
+export function responsiveCloudinarySrcSet(url: string): string | undefined {
+  if (!url?.includes("res.cloudinary.com")) return undefined;
+  return [600, 900, 1200]
+    .map((width) => `${responsiveCloudinaryUrl(url, width)} ${width}w`)
+    .join(", ");
+}
+
 export interface UploadResult {
   url: string;
   secure_url: string;
@@ -43,7 +55,7 @@ export interface UploadResult {
  */
 export async function uploadToCloudinary(
   file: File | Blob,
-  fileName?: string
+  fileName?: string,
 ): Promise<UploadResult> {
   const formData = new FormData();
   formData.append("file", file);
@@ -61,7 +73,7 @@ export async function uploadToCloudinary(
   if (!response.ok) {
     const errorJson = await response.json().catch(() => ({}));
     throw new Error(
-      errorJson?.error?.message || `Cloudinary upload failed with status ${response.status}`
+      errorJson?.error?.message || `Cloudinary upload failed with status ${response.status}`,
     );
   }
 
@@ -84,7 +96,7 @@ export async function uploadToCloudinary(
  */
 export async function batchUploadToCloudinary(
   files: File[],
-  onProgress?: (completed: number, total: number, currentFileName?: string) => void
+  onProgress?: (completed: number, total: number, currentFileName?: string) => void,
 ): Promise<UploadResult[]> {
   const total = files.length;
   let completed = 0;
@@ -111,7 +123,7 @@ declare global {
     cloudinary?: {
       createUploadWidget: (
         options: Record<string, any>,
-        callback: (error: any, result: any) => void
+        callback: (error: any, result: any) => void,
       ) => {
         open: () => void;
         close: () => void;
@@ -234,7 +246,7 @@ export async function openCloudinaryMultiUploadWidget({
           onBatchComplete(batchResults);
         }
       }
-    }
+    },
   );
 
   widget.open();

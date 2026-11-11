@@ -1,7 +1,7 @@
 import { o as __toESM } from "../_runtime.mjs";
 import { c as require_react } from "../_libs/@react-three/drei+[...].mjs";
 import { t as createClient } from "../_libs/supabase__supabase-js.mjs";
-// node_modules/.nitro/vite/services/ssr/assets/cloudinary-B7lKi_GN.js
+// node_modules/.nitro/vite/services/ssr/assets/cloudinary-DKfsfRuI.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var supabase = createClient("https://wwyqjdklftoxsgbultka.supabase.co", "sb_publishable_6zAX638L9JwmiL6-TQwOVA_gFovom2k", { auth: {
 	persistSession: false,
@@ -453,6 +453,18 @@ function optimizeCloudinaryUrl(url, transformations = "f_auto,q_auto") {
 		return `/upload/${transformations}/`;
 	});
 }
+/** Builds a responsive, bounded Cloudinary delivery URL for rendered media. */
+function responsiveCloudinaryUrl(url, width) {
+	return optimizeCloudinaryUrl(url, `f_auto,q_auto:eco,w_${width},c_limit`);
+}
+function responsiveCloudinarySrcSet(url) {
+	if (!url?.includes("res.cloudinary.com")) return void 0;
+	return [
+		600,
+		900,
+		1200
+	].map((width) => `${responsiveCloudinaryUrl(url, width)} ${width}w`).join(", ");
+}
 /**
 * Uploads a single file to Cloudinary unsigned upload preset
 */
@@ -605,4 +617,4 @@ async function openCloudinaryMultiUploadWidget({ onSuccess, onBatchComplete, fol
 		}
 	}).open();
 }
-export { openCloudinaryMultiUploadWidget as a, renameCategory as c, uploadToCloudinary as d, usePortfolioCategories as f, deleteCategory as i, reorderCategories as l, batchUploadToCloudinary as n, optimizeCloudinaryUrl as o, useSiteSettings as p, countItemsForCategory as r, persistSiteSettings as s, addCategory as t, supabase as u };
+export { openCloudinaryMultiUploadWidget as a, renameCategory as c, responsiveCloudinaryUrl as d, supabase as f, useSiteSettings as h, deleteCategory as i, reorderCategories as l, usePortfolioCategories as m, batchUploadToCloudinary as n, optimizeCloudinaryUrl as o, uploadToCloudinary as p, countItemsForCategory as r, persistSiteSettings as s, addCategory as t, responsiveCloudinarySrcSet as u };

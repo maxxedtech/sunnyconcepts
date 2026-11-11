@@ -5,8 +5,7 @@ import { a as getNormalizedURL, c as makeSerovalPlugin, i as attachRouterServerS
 import { t as fromJSON } from "../_libs/seroval.mjs";
 import { n as createServerHistory } from "../_libs/tanstack__history.mjs";
 import { AsyncLocalStorage } from "node:async_hooks";
-require_react();
-var import_jsx_runtime = require_jsx_runtime();
+// node_modules/.nitro/vite/services/ssr/assets/rolldown-runtime-D8jQpDG7.js
 var __defProp = Object.defineProperty;
 var __exportAll = (all, no_symbols) => {
 	let target = {};
@@ -17,6 +16,8 @@ var __exportAll = (all, no_symbols) => {
 	if (!no_symbols) __defProp(target, Symbol.toStringTag, { value: "Module" });
 	return target;
 };
+require_react();
+var import_jsx_runtime = require_jsx_runtime();
 function StartServer(props) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RouterProvider, { router: props.router });
 }
@@ -495,7 +496,7 @@ var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 * the dev styles URL for route-scoped CSS collection.
 */
 async function getStartManifest(matchedRoutes) {
-	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-DcKrrsaV.mjs");
+	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-5yz-Xt7E.mjs");
 	const startManifest = tsrStartManifest();
 	let routes = startManifest.routes;
 	routes[rootRouteId];
@@ -1820,8 +1821,8 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./router-Cy-8oOE6.mjs").then((n) => n.t),
-		import("./start-qbcuf6JQ.mjs"),
+		import("./router-SVyFxB3D.mjs").then((n) => n.t),
+		import("./start-BZxTMZ5L.mjs"),
 		import("./empty-plugin-adapters-CeyhLWeJ.mjs")
 	]);
 	return {
@@ -2386,4 +2387,4 @@ var server_exports = /* @__PURE__ */ __exportAll({
 var fetch = createStartHandler(defaultStreamHandler);
 var createServerEntry = createServerEntry$1;
 var server_default = createServerEntry({ fetch });
-export { createMiddleware as n, server_exports as t };
+export { createMiddleware as n, __exportAll as r, server_exports as t };

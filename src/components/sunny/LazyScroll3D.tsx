@@ -8,16 +8,9 @@ export function LazyScroll3D() {
 
   useEffect(() => {
     setMounted(true);
-    const isMobile = window.innerWidth < 768;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isLowPower =
-      typeof navigator !== "undefined" &&
-      navigator.hardwareConcurrency != null &&
-      navigator.hardwareConcurrency <= 4;
-
-    if (!isMobile && !prefersReducedMotion && !isLowPower) {
-      setEnabled(true);
-    }
+    // Keep the ambient scene visible on mobile; its renderer is DPR-capped.
+    setEnabled(!prefersReducedMotion);
   }, []);
 
   if (!mounted || !enabled) {
@@ -25,7 +18,7 @@ export function LazyScroll3D() {
   }
 
   return (
-    <Suspense fallback={<div className="fixed inset-0 pointer-events-none z-[2]" aria-hidden="true" />}>
+    <Suspense fallback={null}>
       <Scroll3DScene />
     </Suspense>
   );

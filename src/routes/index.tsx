@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="relative overflow-hidden bg-[#0F0F0F] min-h-screen">
+    <main className="relative min-h-screen overflow-x-hidden overflow-y-visible bg-[var(--background)]">
       {/* 60fps Smooth Scroll lerp manager */}
       <SmoothScroll />
 

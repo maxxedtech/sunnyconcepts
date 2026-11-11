@@ -1,17 +1,20 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, useMemo } from "react";
+import { memo, useState, useEffect, useMemo, useCallback } from "react";
 import { supabase, type PortfolioItem } from "@/lib/supabase";
 import { usePortfolioCategories } from "@/lib/portfolioCategories";
 import { useSiteSettings } from "@/lib/siteSettings";
-import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
+import { responsiveCloudinarySrcSet, responsiveCloudinaryUrl } from "@/lib/cloudinary";
 
 interface DisplayItem {
   id: string;
   src: string;
+  srcSet?: string;
   title: string;
   category: string;
   description?: string | null;
 }
+
+const PortfolioMotionButton = memo(motion.button);
 
 export function Portfolio() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -63,7 +66,8 @@ export function Portfolio() {
   const displayItems = useMemo<DisplayItem[]>(() => {
     return items.map((item) => ({
       id: item.id,
-      src: optimizeCloudinaryUrl(item.image_url),
+      src: responsiveCloudinaryUrl(item.image_url, 1200),
+      srcSet: responsiveCloudinarySrcSet(item.image_url),
       title: item.title,
       category: item.category,
       description: item.description,
@@ -74,7 +78,7 @@ export function Portfolio() {
     if (activeCategory === "all") return displayItems;
     const activeLower = activeCategory.toLowerCase();
     const matchingCat = categories.find(
-      (c) => c.slug.toLowerCase() === activeLower || c.name.toLowerCase() === activeLower
+      (c) => c.slug.toLowerCase() === activeLower || c.name.toLowerCase() === activeLower,
     );
     const targetName = matchingCat ? matchingCat.name.toLowerCase() : activeLower;
 
@@ -96,6 +100,8 @@ export function Portfolio() {
       .map((c) => c.trim())
       .filter(Boolean);
   }, [settings.client_marquee_list]);
+
+  const openLightbox = useCallback((item: DisplayItem) => setLightbox(item), []);
 
   return (
     <section id="portfolio" className="relative py-28 md:py-44 px-6 bg-[#0F0F0F]">
@@ -137,16 +143,16 @@ export function Portfolio() {
         </div>
 
         {/* Portfolio Grid & Dynamic Obsidian Skeletons */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync" initial={false}>
           {loading ? (
             <div
               key="loading-skeletons"
-              className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
             >
               {Array.from({ length: 6 }).map((_, i) => (
                 <div
                   key={`obsidian-skeleton-${i}`}
-                  className="aspect-[4/5] rounded-2xl bg-[#3F3F3D] border border-[#6B6A69]/20 p-4 flex flex-col justify-end animate-pulse overflow-hidden relative shadow-lg"
+                  className="aspect-[4/5] rounded-2xl bg-[#3F3F3D] border border-[#6B6A69]/20 p-4 flex flex-col justify-end overflow-hidden relative shadow-lg"
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="relative z-10 space-y-2">
@@ -163,18 +169,18 @@ export function Portfolio() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8"
             >
               {filteredItems.map((item, i) => {
                 const isHeroSpan = i === 0 && filteredItems.length > 2;
                 return (
-                  <motion.button
-                    key={`portfolio-item-${item.id}-${i}`}
+                  <PortfolioMotionButton
+                    key={`portfolio-item-${item.id}`}
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: Math.min(i * 0.05, 0.3), duration: 0.6 }}
-                    onClick={() => setLightbox(item)}
-                    className={`group relative overflow-hidden rounded-2xl text-left border border-[#6B6A69]/20 hover:border-white/25 transition-all duration-500 bg-[#3F3F3D] ${
+                    onClick={() => openLightbox(item)}
+                    className={`group relative overflow-hidden rounded-2xl text-left border border-[#6B6A69]/20 hover:border-white/25 transition-[border-color,box-shadow] duration-500 bg-[#3F3F3D] ${
                       isHeroSpan ? "md:col-span-2 md:row-span-2" : ""
                     }`}
                   >
@@ -185,9 +191,12 @@ export function Portfolio() {
                     >
                       <img
                         src={item.src}
+                        srcSet={item.srcSet}
+                        sizes="(max-width: 767px) 50vw, (max-width: 1279px) 33vw, 400px"
                         alt={item.title}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                        className="h-full w-full object-cover transform-gpu transition-transform duration-700 group-hover:scale-[1.04]"
                         loading="lazy"
+                        decoding="async"
                       />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F]/95 via-[#0F0F0F]/30 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-95 pointer-events-none" />
@@ -204,7 +213,7 @@ export function Portfolio() {
                         {String(i + 1).padStart(2, "0")}
                       </span>
                     </div>
-                  </motion.button>
+                  </PortfolioMotionButton>
                 );
               })}
             </motion.div>
@@ -271,6 +280,8 @@ export function Portfolio() {
                   src={lightbox.src}
                   alt={lightbox.title}
                   className="h-full w-full object-contain"
+                  loading="eager"
+                  decoding="async"
                 />
               </div>
               <div className="mt-4 px-2 flex justify-between items-center">
@@ -280,9 +291,7 @@ export function Portfolio() {
                     {lightbox.category}
                   </p>
                   {lightbox.description && (
-                    <p className="text-sm text-[#AFAFAE] mt-2 max-w-xl">
-                      {lightbox.description}
-                    </p>
+                    <p className="text-sm text-[#AFAFAE] mt-2 max-w-xl">{lightbox.description}</p>
                   )}
                 </div>
                 <button

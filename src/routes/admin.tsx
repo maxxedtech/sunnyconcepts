@@ -197,7 +197,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             <div className="flex items-center gap-2.5">
               <span className="h-2.5 w-2.5 rounded-full bg-[var(--sage)] shadow-[0_0_10px_var(--sage)]" />
               <p className="text-[11px] tracking-[0.45em] uppercase text-[var(--sage)] font-semibold">
-              Sunny Concepts / Studio Portal
+                Sunny Concepts / Studio Portal
               </p>
             </div>
             <h1 className="mt-3 text-4xl sm:text-5xl font-light text-[#D9D9D9] tracking-tight">
@@ -284,7 +284,11 @@ function BatchMediaManagerTab() {
   const [defaultTitlePrefix, setDefaultTitlePrefix] = useState("");
   const [batchDescription, setBatchDescription] = useState("");
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState<{ completed: number; total: number; current?: string } | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<{
+    completed: number;
+    total: number;
+    current?: string;
+  } | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -350,7 +354,7 @@ function BatchMediaManagerTab() {
         selectedFiles,
         (completed, total, current) => {
           setUploadProgress({ completed, total, current });
-        }
+        },
       );
 
       // 2. Prepare portfolio entries
@@ -374,7 +378,10 @@ function BatchMediaManagerTab() {
       });
 
       // 3. Batch atomic insert into portfolio_items
-      const { data, error } = await supabase.from("portfolio_items").insert(recordsToInsert).select();
+      const { data, error } = await supabase
+        .from("portfolio_items")
+        .insert(recordsToInsert)
+        .select();
 
       if (error) {
         throw new Error(`Could not add the selected media: ${error.message}`);
@@ -383,7 +390,7 @@ function BatchMediaManagerTab() {
       toast.success(
         `Upload complete. Successfully added ${recordsToInsert.length} asset${
           recordsToInsert.length > 1 ? "s" : ""
-        } to ${batchCategory}.`
+        } to ${batchCategory}.`,
       );
 
       // Reset form
@@ -401,10 +408,10 @@ function BatchMediaManagerTab() {
     }
   };
 
-  // Open the multi-file media picker
+  // Open the multi-file upload panel
   const launchCloudinaryWidget = async () => {
     try {
-      toast.loading("Opening media picker...", { id: "cld-widget" });
+      toast.loading("Opening upload panel...", { id: "cld-widget" });
       await openCloudinaryMultiUploadWidget({
         folder: `sunny_concepts/${batchCategory.toLowerCase().replace(/\s+/g, "_")}`,
         onBatchComplete: async (results) => {
@@ -412,7 +419,9 @@ function BatchMediaManagerTab() {
           try {
             const now = new Date().toISOString();
             const records = results.map((res, idx) => ({
-              title: res.original_filename.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ") || `Asset ${idx + 1}`,
+              title:
+                res.original_filename.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ") ||
+                `Asset ${idx + 1}`,
               category: batchCategory,
               image_url: optimizeCloudinaryUrl(res.secure_url || res.url),
               description: null,
@@ -423,19 +432,17 @@ function BatchMediaManagerTab() {
             const { error } = await supabase.from("portfolio_items").insert(records);
             if (error) throw error;
 
-            toast.success(
-              `Upload complete. Added ${records.length} assets to ${batchCategory}.`
-            );
+            toast.success(`Upload complete. Added ${records.length} assets to ${batchCategory}.`);
             await loadItems();
           } catch (e: any) {
-              toast.error(`Could not save the portfolio entries: ${e.message}`);
+            toast.error(`Could not save the portfolio entries: ${e.message}`);
           }
         },
       });
       toast.dismiss("cld-widget");
     } catch (e: any) {
       toast.dismiss("cld-widget");
-      toast.error(e?.message || "Could not open the media picker.");
+      toast.error(e?.message || "Could not open the upload panel.");
     }
   };
 
@@ -470,10 +477,10 @@ function BatchMediaManagerTab() {
             type="button"
             onClick={launchCloudinaryWidget}
             className="shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl text-[11px] tracking-[0.18em] uppercase font-semibold bg-[var(--sage)]/15 border border-[var(--sage)]/30 text-[var(--sage)] hover:bg-[var(--sage)]/25 transition-all"
-            title="Open media picker"
+            title="Open upload panel"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            Add via Media Picker
+            Upload Asset
           </button>
         </div>
 
@@ -509,7 +516,9 @@ function BatchMediaManagerTab() {
                   ? `${selectedFiles.length} file${selectedFiles.length > 1 ? "s" : ""} queued for batch upload`
                   : "Drag & drop multiple images here"}
               </p>
-              <p className="text-xs text-[#AFAFAE] mt-1">or click to browse your system (batch mode)</p>
+              <p className="text-xs text-[#AFAFAE] mt-1">
+                or click to browse your system (batch mode)
+              </p>
               <span className="mt-3 text-[10px] tracking-[0.2em] uppercase glass rounded-full px-3 py-1 text-[#AFAFAE]">
                 PNG, JPG, WEBP, AVIF — MULTIPLE: TRUE
               </span>
@@ -536,7 +545,9 @@ function BatchMediaManagerTab() {
                 >
                   <span className="truncate max-w-[240px] text-[#D9D9D9]">{f.name}</span>
                   <div className="flex items-center gap-3">
-                    <span className="text-[10px] text-[#AFAFAE]">{(f.size / 1024).toFixed(0)} KB</span>
+                    <span className="text-[10px] text-[#AFAFAE]">
+                      {(f.size / 1024).toFixed(0)} KB
+                    </span>
                     <button
                       type="button"
                       onClick={(e) => {
@@ -574,7 +585,8 @@ function BatchMediaManagerTab() {
           {/* Optional Title Prefix */}
           <div>
             <label className="block text-xs uppercase tracking-[0.2em] text-[#AFAFAE] mb-2 font-medium">
-              Title / Series Prefix <span className="text-[#AFAFAE]/50 font-normal">(optional)</span>
+              Title / Series Prefix{" "}
+              <span className="text-[#AFAFAE]/50 font-normal">(optional)</span>
             </label>
             <input
               type="text"
@@ -603,7 +615,7 @@ function BatchMediaManagerTab() {
           {uploadProgress && (
             <div className="space-y-1.5 p-3 rounded-xl bg-white/5 border border-[#6B6A69]/20">
               <div className="flex justify-between text-xs text-[#D9D9D9]">
-                <span>Uploading batch...</span>
+                <span>Uploading assets...</span>
                 <span>
                   {uploadProgress.completed} / {uploadProgress.total}
                 </span>
@@ -617,7 +629,9 @@ function BatchMediaManagerTab() {
                 />
               </div>
               {uploadProgress.current && (
-                <p className="text-[10px] text-[#AFAFAE] truncate">Current: {uploadProgress.current}</p>
+                <p className="text-[10px] text-[#AFAFAE] truncate">
+                  Current: {uploadProgress.current}
+                </p>
               )}
             </div>
           )}
@@ -639,7 +653,9 @@ function BatchMediaManagerTab() {
             ) : (
               <>
                 <Upload className="w-4 h-4" />
-                Upload {selectedFiles.length > 0 ? `${selectedFiles.length} Assets` : "Batch"} to Portfolio
+                {selectedFiles.length > 0
+                  ? `Upload ${selectedFiles.length} Asset${selectedFiles.length > 1 ? "s" : ""}`
+                  : "Upload Asset"}
               </>
             )}
           </button>
@@ -675,7 +691,7 @@ function BatchMediaManagerTab() {
             <ImageIcon className="w-10 h-10 mx-auto text-[#AFAFAE]/40 mb-3" />
             <p className="text-sm text-[#D9D9D9]">No portfolio assets yet.</p>
             <p className="text-xs text-[#AFAFAE] mt-1">
-              Select files or use the media picker on the left to start publishing.
+              Select files or use the upload panel on the left to start publishing.
             </p>
           </div>
         ) : (
@@ -692,6 +708,7 @@ function BatchMediaManagerTab() {
                       alt={item.title}
                       className="h-full w-full object-cover"
                       loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <div className="min-w-0">
@@ -868,8 +885,8 @@ function CategoryManagerTab() {
             Safety & Auto-Relinking Note
           </h3>
           <p className="text-xs text-[#AFAFAE] leading-relaxed">
-            Renaming a category automatically updates its portfolio entries.
-            Removing a category lets you move its portfolio assets first or remove them cleanly.
+            Renaming a category automatically updates its portfolio entries. Removing a category
+            lets you move its portfolio assets first or remove them cleanly.
           </p>
         </div>
       </div>
@@ -910,7 +927,9 @@ function CategoryManagerTab() {
                       disabled={idx === 0}
                       onClick={() => handleMove(idx, "up")}
                       className={`p-1 rounded text-xs transition-colors ${
-                        idx === 0 ? "text-white/10" : "text-[#AFAFAE] hover:text-[#D9D9D9] hover:bg-white/5"
+                        idx === 0
+                          ? "text-white/10"
+                          : "text-[#AFAFAE] hover:text-[#D9D9D9] hover:bg-white/5"
                       }`}
                       title="Move up"
                     >
@@ -1003,8 +1022,8 @@ function CategoryManagerTab() {
               Delete Category: "{deletingCat.name}"
             </h3>
             <p className="mt-2 text-sm text-[#AFAFAE] leading-relaxed">
-              There are currently {itemCounts[deletingCat.id] ?? 0} assets assigned to this category.
-              How would you like to handle existing assets?
+              There are currently {itemCounts[deletingCat.id] ?? 0} assets assigned to this
+              category. How would you like to handle existing assets?
             </p>
 
             <div className="mt-6 space-y-4">
@@ -1023,7 +1042,11 @@ function CategoryManagerTab() {
                   {categories
                     .filter((c) => c.id !== deletingCat.id)
                     .map((c) => (
-                      <option key={`reassign-target-${c.id}`} value={c.name} className="bg-[#3F3F3D]">
+                      <option
+                        key={`reassign-target-${c.id}`}
+                        value={c.name}
+                        className="bg-[#3F3F3D]"
+                      >
                         {c.name}
                       </option>
                     ))}
@@ -1172,6 +1195,8 @@ function UniversalCmsTab() {
                     src={optimizeCloudinaryUrl(formData.about_founder_portrait_url)}
                     alt="Founder Portrait"
                     className="h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
                     <button
@@ -1456,7 +1481,9 @@ function UniversalCmsTab() {
                   </div>
 
                   <div>
-                    <label className="block text-[11px] text-[#AFAFAE] mb-1">Discipline Title</label>
+                    <label className="block text-[11px] text-[#AFAFAE] mb-1">
+                      Discipline Title
+                    </label>
                     <input
                       type="text"
                       value={formData[titleKey] as string}

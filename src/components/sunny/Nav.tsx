@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "../common/ThemeProvider";
 
 const links = [
   { href: "#about", label: "About" },
@@ -11,6 +13,7 @@ const links = [
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { theme, toggleTheme, setTheme } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -53,6 +56,20 @@ export function Nav() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              className="hidden md:inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-body)] transition-colors hover:text-[var(--text-heading)]"
+            >
+              <motion.span
+                key={theme}
+                initial={{ rotate: -45, scale: 0.7, opacity: 0 }}
+                animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                transition={{ duration: 0.25 }}
+              >
+                {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </motion.span>
+            </button>
             <a
               href="#contact"
               className="hidden md:inline-flex text-xs tracking-[0.22em] uppercase px-5 py-2 rounded-full border border-[var(--sage)]/40 text-[#D9D9D9] hover:bg-[var(--sage)]/15 transition-all font-medium"
@@ -89,6 +106,25 @@ export function Nav() {
                 {l.label}
               </a>
             ))}
+            <div
+              className="mt-2 flex min-h-11 items-center gap-1 rounded-full border border-[var(--border)] p-1"
+              aria-label="Theme preference"
+            >
+              <button
+                onClick={() => setTheme("dark")}
+                aria-pressed={theme === "dark"}
+                className={`min-h-10 rounded-full px-4 text-xs tracking-[0.2em] uppercase transition-colors ${theme === "dark" ? "bg-[var(--text-heading)] text-[var(--background)]" : "text-[var(--text-body)]"}`}
+              >
+                Dark
+              </button>
+              <button
+                onClick={() => setTheme("light")}
+                aria-pressed={theme === "light"}
+                className={`min-h-10 rounded-full px-4 text-xs tracking-[0.2em] uppercase transition-colors ${theme === "light" ? "bg-[var(--text-heading)] text-[var(--background)]" : "text-[var(--text-body)]"}`}
+              >
+                Light
+              </button>
+            </div>
             <a
               href="/admin"
               onClick={() => setOpen(false)}

@@ -1,24 +1,24 @@
-// node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DcKrrsaV.js
+// node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-5yz-Xt7E.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "C:/Users/DAIMA COMPUTERS/Desktop/New folder/Sunny Concepts final/Website/Sunny Concepts/src/routes/__root.tsx",
 		children: ["/", "/admin"],
-		preloads: ["/assets/index-DUaJ5uge.js"],
+		preloads: ["/assets/index-BMt9o8IK.js"],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-DUaJ5uge.js"
+			src: "/assets/index-BMt9o8IK.js"
 		} }]
 	},
 	"/": {
 		filePath: "C:/Users/DAIMA COMPUTERS/Desktop/New folder/Sunny Concepts final/Website/Sunny Concepts/src/routes/index.tsx",
 		children: void 0,
-		preloads: ["/assets/routes-DkoH3d-_.js", "/assets/cloudinary-p_fwFEyc.js"]
+		preloads: ["/assets/routes-Bd-23CmD.js", "/assets/cloudinary-C2IhLU8u.js"]
 	},
 	"/admin": {
 		filePath: "C:/Users/DAIMA COMPUTERS/Desktop/New folder/Sunny Concepts final/Website/Sunny Concepts/src/routes/admin.tsx",
 		children: void 0,
-		preloads: ["/assets/admin-CpwTZb3w.js", "/assets/cloudinary-p_fwFEyc.js"]
+		preloads: ["/assets/admin-kluP4Zo8.js", "/assets/cloudinary-C2IhLU8u.js"]
 	}
 } });
 export { tsrStartManifest };

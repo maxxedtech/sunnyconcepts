@@ -29,6 +29,7 @@ export function About() {
                   } of Sunny Concepts`}
                   className="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.03]"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F]/80 via-transparent to-transparent pointer-events-none" />
               </>
